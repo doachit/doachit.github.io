@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="有时候觉得自己什么学了很久的C了，什么都懂。真正碰到一个大家都说了几千遍的问题，你却还有点懵逼的时候，才觉得自己是个大傻叉。人傻就要多读书啊！!！ 指针简介指针的3三个重要的概念：指针的地址指针保存的地址指针保存的地址所对应的值所谓大道至简，在复杂的东西也逃不过类比，指针也是如此。 下面有三个定理：1.我们把每一个存储空间看成是一个盒子，每个盒子都有自己的序列号2.每个盒子里面可以存放一个数。当这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="指针相关">
+<meta property="og:url" content="http://example.com/2017/04/07/pointer-2017-04-07/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="有时候觉得自己什么学了很久的C了，什么都懂。真正碰到一个大家都说了几千遍的问题，你却还有点懵逼的时候，才觉得自己是个大傻叉。人傻就要多读书啊！!！ 指针简介指针的3三个重要的概念：指针的地址指针保存的地址指针保存的地址所对应的值所谓大道至简，在复杂的东西也逃不过类比，指针也是如此。 下面有三个定理：1.我们把每一个存储空间看成是一个盒子，每个盒子都有自己的序列号2.每个盒子里面可以存放一个数。当这">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/pointer.png">
+<meta property="article:published_time" content="2017-04-07T07:29:52.000Z">
+<meta property="article:modified_time" content="2023-02-22T14:46:24.738Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="指针">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/pointer.png">
+
+
+<link rel="canonical" href="http://example.com/2017/04/07/pointer-2017-04-07/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2017/04/07/pointer-2017-04-07/","path":"2017/04/07/pointer-2017-04-07/","title":"指针相关"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>指针相关 | Hexo</title>
+  
+
+
+
+
+
+
+  <script async defer data-website-id="" src=""></script>
+
+  <script defer data-domain="" src=""></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">指针简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%80%E8%B0%93%E6%8C%87%E9%92%88%E4%BC%A0%E9%80%92-%E5%80%BC%E4%BC%A0%E9%80%92"><span class="nav-number">2.</span> <span class="nav-text">所谓指针传递,值传递</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92"><span class="nav-number">3.</span> <span class="nav-text">引用传递</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E%E5%8F%98%E9%87%8F%E5%BC%95%E7%94%A8%E6%9D%A5%E8%AF%B4"><span class="nav-number">3.1.</span> <span class="nav-text">对于变量引用来说</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E%E5%87%BD%E6%95%B0%E5%BD%A2%E5%8F%82%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92-fun-int-amp-i-%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.2.</span> <span class="nav-text">对于函数形参引用传递-fun(int &amp;i)类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E%E5%87%BD%E6%95%B0%E5%BD%A2%E5%8F%82%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92-fun-int-amp-i"><span class="nav-number">3.3.</span> <span class="nav-text">对于函数形参引用传递-fun(int *&amp;i)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88"><span class="nav-number">4.</span> <span class="nav-text">常量指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/04/07/pointer-2017-04-07/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="指针相关 | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          指针相关
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-04-07 15:29:52" itemprop="dateCreated datePublished" datetime="2017-04-07T15:29:52+08:00">2017-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/C-C/" itemprop="url" rel="index"><span itemprop="name">C/C++</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>有时候觉得自己什么学了很久的C了，什么都懂。真正碰到一个大家都说了几千遍的问题，你却还有点懵逼的时候，才觉得自己是个大傻叉。人傻就要多读书啊！!！</p>
+<h1 id="指针简介"><a href="#指针简介" class="headerlink" title="指针简介"></a>指针简介</h1><p>指针的3三个重要的概念：<br><strong>指针的地址</strong><br><strong>指针保存的地址</strong><br><strong>指针保存的地址所对应的值</strong><br>所谓大道至简，在复杂的东西也逃不过类比，指针也是如此。</p>
+<div class="note primary"><p>下面有三个定理：<br><strong>1.我们把每一个存储空间看成是一个盒子，每个盒子都有自己的序列号</strong><br><strong>2.每个盒子里面可以存放一个数。当这个数是另外一个盒子的序列号的时候，可以通过这个序列号可以找到另外一个盒子。</strong><br><strong>3.每一个程序中定义的变量都有自己专属的盒子。</strong></p>
+</div>
+<span id="more"></span>OK，在这些定理的约束下我们再来进行讨论。我们经常称`int *p`是一个指针变量，既然是变量也有自己的盒子了。那么我们的指针变量的地址就是盒子上的地址。当盒子里存放了序列号（地址）的时候，我们就可以根据这个序列号去找另外一个盒子，进而查看另外一个盒子里面的东西。
+<p>道理就是这么简单啦<del>看图说话就更清晰啦</del><br><img src="/img/pointer.png" alt="指针"><br>很显然，我们定义了指针变量<code>int *p</code>,这个变量对应的盒子的序号是<code>0000</code>，这个盒子里面存放的是<code>0003</code>，我们根据这个地址就可以找到<code>0003</code>的盒子里面存放的值是15了。</p>
+<h1 id="所谓指针传递-值传递"><a href="#所谓指针传递-值传递" class="headerlink" title="所谓指针传递,值传递"></a>所谓指针传递,值传递</h1><div class="note primary"><p>对于所谓指针传递，值传递，本质上是把一个盒子的标号或者盒子里面的东西放到另外一个盒子里的操作。 </p>
+</div>
+<p>对于这样的两个函数来说</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun</span><span class="params">(<span class="type">int</span> a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun2</span><span class="params">(<span class="type">int</span> *a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>事实上<code>int a</code>,<code>int *a</code>作为形参是拥有自己的盒子的，也就是拥有自己的独立空间。这个时候数据的相互传递的实质是把实参变量对应盒子<code>里面存放的东西</code>或者<code>该盒子的标号</code>放到了形参变量对应的盒子里。所谓大道至简，莫过于此。<br>因此对于通过传递指针来改变一个数的值情况来说，本质上都是通过获取到某个盒子的标号来改变盒子里的内容来实现的。<br>那么对于下面的程序会出现错误结果的原因，我们也能用我们的”火眼金睛”来看穿它的本质了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun1</span><span class="params">(<span class="type">int</span> *m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;fun1----&quot;</span>&lt;&lt;m&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;m&lt;&lt;endl;</span><br><span class="line">	m = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;fun1----&quot;</span>&lt;&lt;m&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;m&lt;&lt;endl;</span><br><span class="line">	*m = <span class="number">15</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> *p = <span class="literal">NULL</span>;</span><br><span class="line">	cout&lt;&lt;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;p&lt;&lt;endl;</span><br><span class="line">	<span class="built_in">fun1</span>(p);</span><br><span class="line">	cout&lt;&lt;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;p&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*********************************************/</span></span><br><span class="line">运行结果:</span><br><span class="line"></span><br><span class="line"><span class="number">0</span>---<span class="number">-0x22feac</span></span><br><span class="line">fun1---<span class="number">-0</span>---<span class="number">-0x22fe90</span></span><br><span class="line">fun1---<span class="number">-0x6562f0</span>---<span class="number">-0x22fe90</span></span><br><span class="line"><span class="number">0</span>---<span class="number">-0x22feac</span></span><br></pre></td></tr></table></figure>
+<p>可以看出形参是有自己专属的盒子（独立的内存空间）。在实参p向形参传递数据的时候，将自己盒子里面的内容复制了一份传给了形参。之后形参就对着自己盒子里面的东西一顿摆弄，然而实参盒子里面的东西变化了么？自然是没有变化的。所以p依然是一个空的指针，如果你去访问p存放的指针对应的值，就会崩~~~炸了（程序崩溃）。</p>
+<p>那么我们如何改变P的值呢？最最关键的是改变P的盒子里面装的内容！<br>你可以这样：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> *<span class="title">fun2</span><span class="params">(<span class="type">int</span> *m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;fun1----&quot;</span>&lt;&lt;m&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;m&lt;&lt;endl;</span><br><span class="line">	m = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;fun1----&quot;</span>&lt;&lt;m&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;m&lt;&lt;endl;</span><br><span class="line">	*m = <span class="number">15</span>;</span><br><span class="line">	<span class="keyword">return</span> m;	</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> *p = <span class="literal">NULL</span>;</span><br><span class="line">	cout&lt;&lt;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;p&lt;&lt;endl;</span><br><span class="line">	p=<span class="built_in">fun2</span>(p);</span><br><span class="line">	cout&lt;&lt;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;*p&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*********************************************/</span></span><br><span class="line">运行结果：</span><br><span class="line"><span class="number">0</span>---<span class="number">-0x22feac</span></span><br><span class="line">fun1---<span class="number">-0</span>---<span class="number">-0x22fe90</span></span><br><span class="line">fun1---<span class="number">-0x5f62f0</span>---<span class="number">-0x22fe90</span></span><br><span class="line"><span class="number">0x5f62f0</span>---<span class="number">-0x22feac</span>---<span class="number">-15</span></span><br></pre></td></tr></table></figure>
+<p>当然也可以这样：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun3</span><span class="params">(<span class="type">int</span> **m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	*m = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">	**m = <span class="number">23</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> *p = <span class="literal">NULL</span>;</span><br><span class="line">	cout&lt;&lt;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;p&lt;&lt;endl;</span><br><span class="line">	<span class="built_in">fun3</span>((<span class="type">int</span> **)&amp;p);</span><br><span class="line">	cout&lt;&lt;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;*p&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*********************************************/</span></span><br><span class="line">运行结果：</span><br><span class="line"><span class="number">0</span>---<span class="number">-0x22feac</span></span><br><span class="line"><span class="number">0x6462f0</span>---<span class="number">-0x22feac</span>---<span class="number">-23</span></span><br></pre></td></tr></table></figure>
+<h1 id="引用传递"><a href="#引用传递" class="headerlink" title="引用传递"></a>引用传递</h1><p>引用传递是一种完全的传递，是一个完整个体的传递，它传递的东西包括盒子的标号和盒子里面的内容。</p>
+<h2 id="对于变量引用来说"><a href="#对于变量引用来说" class="headerlink" title="对于变量引用来说"></a>对于变量引用来说</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> i = <span class="number">10</span>;</span><br><span class="line">	<span class="type">int</span> &amp;j = i;</span><br><span class="line">	cout&lt;&lt;&amp;i&lt;&lt;endl&lt;&lt;&amp;j&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125; 	</span><br><span class="line"><span class="comment">/*********************************************/</span></span><br><span class="line">运行结果：</span><br><span class="line"></span><br><span class="line"><span class="number">0x22fea8</span></span><br><span class="line"><span class="number">0x22fea8</span></span><br></pre></td></tr></table></figure>
+<h2 id="对于函数形参引用传递-fun-int-amp-i-类型"><a href="#对于函数形参引用传递-fun-int-amp-i-类型" class="headerlink" title="对于函数形参引用传递-fun(int &amp;i)类型"></a>对于函数形参引用传递-fun(int &amp;i)类型</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun4</span><span class="params">(<span class="type">int</span> &amp;i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;in fun4---&quot;</span>;</span><br><span class="line">	cout&lt;&lt;i&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;i&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> i = <span class="number">10</span>;</span><br><span class="line">	<span class="type">int</span> &amp;j = i;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;Before---&quot;</span>&lt;&lt;&amp;i&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;j&lt;&lt;endl;</span><br><span class="line">	<span class="built_in">fun4</span>(i);</span><br><span class="line">	<span class="built_in">fun4</span>(j);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125; 	</span><br><span class="line"><span class="comment">/*********************************************/</span></span><br><span class="line">运行结果：</span><br><span class="line"></span><br><span class="line">Before--<span class="number">-0x22fea8</span>---<span class="number">-0x22fea8</span></span><br><span class="line">in fun4--<span class="number">-10</span>---<span class="number">-0x22fea8</span></span><br><span class="line">in fun4--<span class="number">-10</span>---<span class="number">-0x22fea8</span></span><br></pre></td></tr></table></figure>
+<h2 id="对于函数形参引用传递-fun-int-amp-i"><a href="#对于函数形参引用传递-fun-int-amp-i" class="headerlink" title="对于函数形参引用传递-fun(int *&amp;i)"></a>对于函数形参引用传递-fun(int *&amp;i)</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun3</span><span class="params">(<span class="type">int</span> *&amp;i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;In fun3----&quot;</span>;</span><br><span class="line">	cout&lt;&lt;i&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;i&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> i = <span class="number">10</span>;</span><br><span class="line">	<span class="type">int</span> &amp;j = i;</span><br><span class="line">	<span class="type">int</span> *p = &amp;i;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;Before---&quot;</span>&lt;&lt;&amp;i&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;j&lt;&lt;endl;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;P------&quot;</span>&lt;&lt;p&lt;&lt;<span class="string">&quot;------&quot;</span>&lt;&lt;&amp;p&lt;&lt;endl;</span><br><span class="line">	<span class="built_in">fun3</span>(p);<span class="comment">//这里不能传递&amp;i的值</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125; 	</span><br><span class="line"><span class="comment">/*********************************************/</span></span><br><span class="line">运行结果：</span><br><span class="line"></span><br><span class="line">Before--<span class="number">-0x22fea8</span>---<span class="number">-0x22fea8</span></span><br><span class="line">P-----<span class="number">-0x22fea8</span>-----<span class="number">-0x22fea4</span></span><br><span class="line">In fun3---<span class="number">-0x22fea8</span>---<span class="number">-0x22fea4</span></span><br></pre></td></tr></table></figure>
+<p>引用传递是完全的传递在这里更能明显的表示出来。在fun3函数中我们可以看出传递进来的是p对应的变量盒子的整体，包括盒子的标号（p的地址）和盒子的内容（指针变量保存的地址），两者缺一不可，同时这也是传递<code>&amp;i</code>会报错的原因（它只是传递了盒子的标号—变量的地址，这和形参的类型是不同的）。</p>
+<h1 id="常量指针"><a href="#常量指针" class="headerlink" title="常量指针"></a>常量指针</h1><p>对于常量指针有这样的三种形式：<br><code>int * const p</code>:这种情况下可以理解为当前盒子里面的内容是不能进行改变的。就像上了锁的保险箱，里面存放了另外一个箱子的标号，当前箱子里面存放的标号不能被更改，但是这个标号对应的箱子里面的东西你却可以随便更改。<br>举例如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> m = <span class="number">5</span>;</span><br><span class="line">    <span class="type">int</span> n = <span class="number">6</span>;</span><br><span class="line">    <span class="type">int</span> * <span class="type">const</span> p = &amp;m;</span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl;<span class="comment">//5</span></span><br><span class="line">    m = n;</span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl;<span class="comment">//6</span></span><br><span class="line">    p = &amp;n; <span class="comment">//不能进行修改</span></span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>const int *p</code>:这种情况下可以理解为当前盒子里面存放的标号所对应的盒子里面的内容是不能进行改变的。这种情况类似于士兵，士兵的任务就是负责保护盒子里面的内容不被改变，但是士兵可以被派去保护不同的盒子。<br>举例如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> m = <span class="number">5</span>;</span><br><span class="line">    <span class="type">int</span> n = <span class="number">6</span>;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> * p = &amp;m;</span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl; <span class="comment">//5</span></span><br><span class="line">    p = &amp;n;</span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl;<span class="comment">//6</span></span><br><span class="line">    *p = n;			<span class="comment">//错误，不能进行修改</span></span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>const int * const p</code>:这种情况是上述两种情况的结合，即当前盒子不能改变，里面存放的东西也是不能动的。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p id="div-border-top-red">1.本质上值传递和指针传递是一种类型，它们传递的过程中只传输一个变量的一种属性（地址或者是改地址存放的值）。但是引用传递会传输一个完整的变量，包括地址和地址存放的内容。
+2.对于值传递和指针传递来说，函数形参的来说都会单独分配一个独立的内存空间，但是引用传递不会，传递过来的是实参的实体。</p>
+# 额外的说明——数组名和指针的区别
+对于函数的值传递和参数传递来讲，在上面我们已经很清楚的了解了它们的本质。但是最近对于数组又有了新的发现：
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> a = <span class="number">5</span>;</span><br><span class="line">	<span class="type">int</span> m[<span class="number">1</span>]=&#123;a&#125;;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot; m----%X\n&quot;</span>,m);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;&amp;m----%X\n&quot;</span>,&amp;m);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;*m----%X\n&quot;</span>,&amp;m[<span class="number">0</span>]);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;&amp;a----%X\n&quot;</span>,&amp;a);</span><br><span class="line">&#125; 	</span><br><span class="line">运行结果：</span><br><span class="line"> m---<span class="number">-28F</span>F04</span><br><span class="line">&amp;m---<span class="number">-28F</span>F04</span><br><span class="line">*m---<span class="number">-28F</span>F04</span><br><span class="line">&amp;a---<span class="number">-28F</span>F08</span><br></pre></td></tr></table></figure>
+数组名和指针是由区别的：数组名不是一个变量，它没有自己的独立空间（没有自己的盒子！！），编译器解析为数组第一个元素的首地址，即数组名的值和数组中第一个元素存放的地址相同。本质上数组名对应的地址是一个常量指针，因此不能直接对数组名进行自加减操作。同时因为数组名是一个地址，对它取地址实际上并没有什么意义。
+需要注意的是，当数组名作为sizeof和&操作符的操作数时需要特别对待。
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> <span class="built_in">array</span>[] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,<span class="keyword">sizeof</span>(<span class="built_in">array</span>));</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;array----%X\n&quot;</span>,<span class="built_in">array</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;array + 1----%X\n&quot;</span>,<span class="built_in">array</span> + <span class="number">1</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;&amp;array----%X\n&quot;</span>,&amp;<span class="built_in">array</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;&amp;array + 1----%X\n&quot;</span>,&amp;<span class="built_in">array</span> + <span class="number">1</span>);</span><br><span class="line">运行结果：</span><br><span class="line"><span class="built_in">array</span>---<span class="number">-28F</span>F04</span><br><span class="line"><span class="built_in">array</span> + <span class="number">1</span>---<span class="number">-28F</span>F05</span><br><span class="line">&amp;<span class="built_in">array</span>---<span class="number">-28F</span>F04</span><br><span class="line">&amp;<span class="built_in">array</span> + <span class="number">1</span>---<span class="number">-28F</span>F08</span><br></pre></td></tr></table></figure>
+显然我们可以得出这样的结论：
+1.array指向的是元素的首地址，加一操作之后指向下一个元素 ，本质上是指向元素的指针
+2.&array指向的是整个数组的地址，加一操作之后偏移了整个数组的长度，本质上是一个数组指针
+
+<p>一些非常好的参考文章：<br>1.[<a target="_blank" rel="noopener" href="http://www.cnblogs.com/uniqueliu/archive/2011/07/14/2106681.html]">http://www.cnblogs.com/uniqueliu/archive/2011/07/14/2106681.html]</a><br>2.[<a target="_blank" rel="noopener" href="http://blog.csdn.net/huqinwei987/article/details/50769096]">http://blog.csdn.net/huqinwei987/article/details/50769096]</a><br>3.[<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/2528318/how-come-an-arrays-address-is-equal-to-its-value-in-c]">https://stackoverflow.com/questions/2528318/how-come-an-arrays-address-is-equal-to-its-value-in-c]</a></p>
+<blockquote class="blockquote-center">完</blockquote>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%8C%87%E9%92%88/" rel="tag"># 指针</a>
+              <a href="/tags/C/" rel="tag"># C</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/04/05/linux-driver-2017-04-05/" rel="prev" title="linux字符驱动学习">
+                  <i class="fa fa-chevron-left"></i> linux字符驱动学习
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/05/01/linux-platform-2017-04-07/" rel="next" title="linux平台驱动模型框架">
+                  linux平台驱动模型框架 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
