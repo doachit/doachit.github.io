@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
@@ -17,14 +17,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
     <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="一个人的世界">
 <meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<meta property="og:site_name" content="一个人的世界">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="zhu">
 <meta name="twitter:card" content="summary">
 
 
@@ -32,10 +32,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"index.html","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Hexo</title>
+<title>一个人的世界</title>
   
 
 
@@ -59,7 +59,10 @@
     <div class="column">
       <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -67,19 +70,23 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Hexo</h1>
+      <h1 class="site-title">一个人的世界</h1>
       <i class="logo-line"></i>
     </a>
   </div>
 
   <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
     </div>
   </div>
 </div>
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
 
 
 
@@ -92,10 +99,10 @@
     <div class="sidebar-inner sidebar-overview-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
-          Table of Contents
+          文章目录
         </li>
         <li class="sidebar-nav-overview">
-          Overview
+          站点概览
         </li>
       </ul>
 
@@ -107,7 +114,7 @@
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">John Doe</p>
+  <p class="site-author-name" itemprop="name">zhu</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap animated">
@@ -115,17 +122,17 @@
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
           <span class="site-state-item-count">12</span>
-          <span class="site-state-item-name">posts</span>
+          <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
         <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">categories</span></a>
+        <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
         <span class="site-state-item-count">13</span>
-        <span class="site-state-item-name">tags</span>
+        <span class="site-state-item-name">标签</span>
       </div>
   </nav>
 </div>
@@ -154,16 +161,16 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhu">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="一个人的世界">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="name" content="undefined | 一个人的世界">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -177,22 +184,22 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Posted on</span>
+      <span class="post-meta-item-text">发表于</span>
 
-      <time title="Created: 2018-06-15 21:59:17" itemprop="dateCreated datePublished" datetime="2018-06-15T21:59:17+08:00">2018-06-15</time>
+      <time title="创建时间：2018-06-15 21:59:17" itemprop="dateCreated datePublished" datetime="2018-06-15T21:59:17+08:00">2018-06-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-22 23:28:16" itemprop="dateModified" datetime="2023-02-22T23:28:16+08:00">2023-02-22</time>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-02-22 23:28:16" itemprop="dateModified" datetime="2023-02-22T23:28:16+08:00">2023-02-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
-      <span class="post-meta-item-text">In</span>
+      <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
           <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
         </span>
@@ -213,7 +220,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/06/15/%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E7%AE%80%E4%BB%8B-2017-06-15/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -247,16 +254,16 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhu">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="一个人的世界">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="name" content="undefined | 一个人的世界">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -270,22 +277,22 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Posted on</span>
+      <span class="post-meta-item-text">发表于</span>
 
-      <time title="Created: 2017-06-19 22:34:04" itemprop="dateCreated datePublished" datetime="2017-06-19T22:34:04+08:00">2017-06-19</time>
+      <time title="创建时间：2017-06-19 22:34:04" itemprop="dateCreated datePublished" datetime="2017-06-19T22:34:04+08:00">2017-06-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
-      <span class="post-meta-item-text">In</span>
+      <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
           <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
         </span>
@@ -351,16 +358,16 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhu">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="一个人的世界">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="name" content="undefined | 一个人的世界">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -374,22 +381,22 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Posted on</span>
+      <span class="post-meta-item-text">发表于</span>
 
-      <time title="Created: 2017-05-01 10:09:42" itemprop="dateCreated datePublished" datetime="2017-05-01T10:09:42+08:00">2017-05-01</time>
+      <time title="创建时间：2017-05-01 10:09:42" itemprop="dateCreated datePublished" datetime="2017-05-01T10:09:42+08:00">2017-05-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
-      <span class="post-meta-item-text">In</span>
+      <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
           <a href="/categories/linux%E9%A9%B1%E5%8A%A8/" itemprop="url" rel="index"><span itemprop="name">linux驱动</span></a>
         </span>
@@ -410,7 +417,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2017/05/01/linux-platform-2017-04-07/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -444,16 +451,16 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhu">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="一个人的世界">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="name" content="undefined | 一个人的世界">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -467,22 +474,22 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Posted on</span>
+      <span class="post-meta-item-text">发表于</span>
 
-      <time title="Created: 2017-04-07 15:29:52" itemprop="dateCreated datePublished" datetime="2017-04-07T15:29:52+08:00">2017-04-07</time>
+      <time title="创建时间：2017-04-07 15:29:52" itemprop="dateCreated datePublished" datetime="2017-04-07T15:29:52+08:00">2017-04-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
-      <span class="post-meta-item-text">In</span>
+      <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
           <a href="/categories/C-C/" itemprop="url" rel="index"><span itemprop="name">C/C++</span></a>
         </span>
@@ -505,7 +512,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2017/04/07/pointer-2017-04-07/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -539,16 +546,16 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhu">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="一个人的世界">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="name" content="undefined | 一个人的世界">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -562,22 +569,22 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Posted on</span>
+      <span class="post-meta-item-text">发表于</span>
 
-      <time title="Created: 2017-04-05 21:19:02" itemprop="dateCreated datePublished" datetime="2017-04-05T21:19:02+08:00">2017-04-05</time>
+      <time title="创建时间：2017-04-05 21:19:02" itemprop="dateCreated datePublished" datetime="2017-04-05T21:19:02+08:00">2017-04-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
-      <span class="post-meta-item-text">In</span>
+      <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
           <a href="/categories/linux%E9%A9%B1%E5%8A%A8/" itemprop="url" rel="index"><span itemprop="name">linux驱动</span></a>
         </span>
@@ -598,7 +605,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2017/04/05/linux-driver-2017-04-05/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -632,16 +639,16 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhu">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="一个人的世界">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="name" content="undefined | 一个人的世界">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -655,22 +662,22 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Posted on</span>
+      <span class="post-meta-item-text">发表于</span>
 
-      <time title="Created: 2017-04-04 22:05:21" itemprop="dateCreated datePublished" datetime="2017-04-04T22:05:21+08:00">2017-04-04</time>
+      <time title="创建时间：2017-04-04 22:05:21" itemprop="dateCreated datePublished" datetime="2017-04-04T22:05:21+08:00">2017-04-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
-      <span class="post-meta-item-text">In</span>
+      <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
           <a href="/categories/C-C/" itemprop="url" rel="index"><span itemprop="name">C/C++</span></a>
         </span>
@@ -692,7 +699,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2017/04/04/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9B%B8%E5%85%B3-2017-04-04/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -726,16 +733,16 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhu">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="一个人的世界">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="name" content="undefined | 一个人的世界">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -749,22 +756,22 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Posted on</span>
+      <span class="post-meta-item-text">发表于</span>
 
-      <time title="Created: 2017-03-30 10:17:00" itemprop="dateCreated datePublished" datetime="2017-03-30T10:17:00+08:00">2017-03-30</time>
+      <time title="创建时间：2017-03-30 10:17:00" itemprop="dateCreated datePublished" datetime="2017-03-30T10:17:00+08:00">2017-03-30</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
-      <span class="post-meta-item-text">In</span>
+      <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
           <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
         </span>
@@ -784,7 +791,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2017/03/30/modular-exponentiation-2017-03-30/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -818,16 +825,16 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhu">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="一个人的世界">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="name" content="undefined | 一个人的世界">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -841,22 +848,22 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Posted on</span>
+      <span class="post-meta-item-text">发表于</span>
 
-      <time title="Created: 2016-06-21 22:18:22" itemprop="dateCreated datePublished" datetime="2016-06-21T22:18:22+08:00">2016-06-21</time>
+      <time title="创建时间：2016-06-21 22:18:22" itemprop="dateCreated datePublished" datetime="2016-06-21T22:18:22+08:00">2016-06-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
-      <span class="post-meta-item-text">In</span>
+      <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
           <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
         </span>
@@ -877,7 +884,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/06/21/JDBC%E8%BF%9E%E6%8E%A5%E6%AD%A5%E9%AA%A4/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -911,16 +918,16 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhu">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="一个人的世界">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="name" content="undefined | 一个人的世界">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -934,22 +941,22 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Posted on</span>
+      <span class="post-meta-item-text">发表于</span>
 
-      <time title="Created: 2016-06-20 22:18:22" itemprop="dateCreated datePublished" datetime="2016-06-20T22:18:22+08:00">2016-06-20</time>
+      <time title="创建时间：2016-06-20 22:18:22" itemprop="dateCreated datePublished" datetime="2016-06-20T22:18:22+08:00">2016-06-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
-      <span class="post-meta-item-text">In</span>
+      <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
           <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
         </span>
@@ -970,7 +977,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/06/20/JDBC%E7%BB%9F%E8%AE%A1%E6%9F%A5%E8%AF%A2%E6%9D%A1%E7%9B%AE%E6%95%B0%E7%9B%AE/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -1004,16 +1011,16 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhu">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="一个人的世界">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hexo">
+      <meta itemprop="name" content="undefined | 一个人的世界">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -1027,22 +1034,22 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Posted on</span>
+      <span class="post-meta-item-text">发表于</span>
 
-      <time title="Created: 2016-06-02 22:18:22" itemprop="dateCreated datePublished" datetime="2016-06-02T22:18:22+08:00">2016-06-02</time>
+      <time title="创建时间：2016-06-02 22:18:22" itemprop="dateCreated datePublished" datetime="2016-06-02T22:18:22+08:00">2016-06-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
-      <span class="post-meta-item-text">In</span>
+      <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
           <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
         </span>
@@ -1063,7 +1070,7 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/06/02/%E6%88%90%E7%BB%A9%E6%9F%A5%E8%AF%A2%E7%B3%BB%E7%BB%9F%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/#more" rel="contents">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
@@ -1086,7 +1093,7 @@
 
 
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -1102,9 +1109,9 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">zhu</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
 
     </div>
@@ -1117,7 +1124,7 @@
     <span class="toggle-line"></span>
   </div>
   <div class="sidebar-dimmer"></div>
-  <div class="back-to-top" role="button" aria-label="Back to top">
+  <div class="back-to-top" role="button" aria-label="返回顶部">
     <i class="fa fa-arrow-up fa-lg"></i>
     <span>0%</span>
   </div>
