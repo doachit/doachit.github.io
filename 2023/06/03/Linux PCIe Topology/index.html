@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.14.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Linux下查看当前的PCI拓扑图，得到的结果如下所示： 1234567891011121314151617root@dell:~# lspci -t-[0000:00]-+-00.0           +-01.0-[01]--+-00.0           |            \-00.1           +-02.0           +-03.0           +-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PCIe 拓扑结构">
+<meta property="og:url" content="http://example.com/2023/06/03/Linux%20PCIe%20Topology/index.html">
+<meta property="og:site_name" content="一个人的世界">
+<meta property="og:description" content="Linux下查看当前的PCI拓扑图，得到的结果如下所示： 1234567891011121314151617root@dell:~# lspci -t-[0000:00]-+-00.0           +-01.0-[01]--+-00.0           |            \-00.1           +-02.0           +-03.0           +-1">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-02T23:18:22.000Z">
+<meta property="article:modified_time" content="2023-06-02T23:15:10.446Z">
+<meta property="article:author" content="zhu">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="PCIe">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2023/06/03/Linux%20PCIe%20Topology/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/06/03/Linux%20PCIe%20Topology/","path":"2023/06/03/Linux PCIe Topology/","title":"PCIe 拓扑结构"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PCIe 拓扑结构 | 一个人的世界</title>
+  
+
+
+
+
+
+
+  <script async defer data-website-id="" src=""></script>
+
+  <script defer data-domain="" src=""></script>
+<link rel="dns-prefetch" href="hexo-comment-server.vercel.app">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">一个人的世界</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/03/Linux%20PCIe%20Topology/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个人的世界">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="PCIe 拓扑结构 | 一个人的世界">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PCIe 拓扑结构
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-06-03 07:18:22 / 修改时间：07:15:10" itemprop="dateCreated datePublished" datetime="2023-06-03T07:18:22+08:00">2023-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/PCIE/" itemprop="url" rel="index"><span itemprop="name">PCIE</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2023/06/03/Linux%20PCIe%20Topology/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2023/06/03/Linux%20PCIe%20Topology/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Linux下查看当前的PCI拓扑图，得到的结果如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">root@dell:~# lspci -t</span><br><span class="line">-[0000:00]-+-00.0</span><br><span class="line">           +-01.0-[01]--+-00.0</span><br><span class="line">           |            \-00.1</span><br><span class="line">           +-02.0</span><br><span class="line">           +-03.0</span><br><span class="line">           +-14.0</span><br><span class="line">           +-16.0</span><br><span class="line">           +-1a.0</span><br><span class="line">           +-1b.0</span><br><span class="line">           +-1c.0-[02]--</span><br><span class="line">           +-1c.1-[03-04]----00.0-[04]--</span><br><span class="line">           +-1c.4-[05]----00.0</span><br><span class="line">           +-1d.0</span><br><span class="line">           +-1f.0</span><br><span class="line">           +-1f.2</span><br><span class="line">           \-1f.3</span><br></pre></td></tr></table></figure>
+
+<p>你也可以加上-v来查看更多的具体信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">root@dell:~# lspci -tv</span><br><span class="line">-[0000:00]-+-00.0  Intel Corporation 4th Gen Core Processor DRAM Controller</span><br><span class="line">           +-01.0-[01]--+-00.0  Intel Corporation I350 Gigabit Network Connection</span><br><span class="line">           |            \-00.1  Intel Corporation I350 Gigabit Network Connection</span><br><span class="line">           +-02.0  Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor Integrated Graphics Controller</span><br><span class="line">           +-03.0  Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor HD Audio Controller</span><br><span class="line">           +-14.0  Intel Corporation 8 Series/C220 Series Chipset Family USB xHCI</span><br><span class="line">           +-16.0  Intel Corporation 8 Series/C220 Series Chipset Family MEI Controller #1</span><br><span class="line">           +-1a.0  Intel Corporation 8 Series/C220 Series Chipset Family USB EHCI #2</span><br><span class="line">           +-1b.0  Intel Corporation 8 Series/C220 Series Chipset High Definition Audio Controller</span><br><span class="line">           +-1c.0-[02]--</span><br><span class="line">           +-1c.1-[03-04]----00.0-[04]--</span><br><span class="line">           +-1c.4-[05]----00.0  Samsung Electronics Co Ltd NVMe SSD Controller PM173X</span><br><span class="line">           +-1d.0  Intel Corporation 8 Series/C220 Series Chipset Family USB EHCI #1</span><br><span class="line">           +-1f.0  Intel Corporation Q87 Express LPC Controller</span><br><span class="line">           +-1f.2  Intel Corporation SATA Controller [RAID mode]</span><br><span class="line">           \-1f.3  Intel Corporation 8 Series/C220 Series Chipset Family SMBus Controller</span><br></pre></td></tr></table></figure>
+<p>从上面的拓扑结构中可以看出，只有一个domain，然后bus 00下面挂载了多个设备。</p>
+<ul>
+<li><strong>普通设备</strong>：00.0、02.0、03.0、14.0、16.0、1a.0、1b.0、1d.0、1f.0-3 </li>
+<li><strong>桥设备</strong>：01.0、1c.0-4<br>其中01.0桥设备扩展出bus 01，bus 01下面挂载了一个多Function设备；1c.0 桥设备扩展出bus 02，但是上面没有挂载设备。</li>
+</ul>
+<p>当然上面1c.1桥设备的连接还是很奇怪，看一下&#x3D;&#x3D;&#x2F;sys&#x2F;bus&#x2F;pci&#x2F;devices&#x3D;&#x3D;中的设备连接以及lspci的结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">lrwxrwxrwx 1 root root 0 Mar 30 13:11 0000:01:00.0 -&gt; ../../../devices/pci0000:00/0000:00:01.0/0000:01:00.0/</span><br><span class="line">lrwxrwxrwx 1 root root 0 Mar 30 13:11 0000:01:00.1 -&gt; ../../../devices/pci0000:00/0000:00:01.0/0000:01:00.1/</span><br><span class="line">lrwxrwxrwx 1 root root 0 Mar 30 13:11 0000:03:00.0 -&gt; ../../../devices/pci0000:00/0000:00:1c.1/0000:03:00.0/</span><br><span class="line">lrwxrwxrwx 1 root root 0 Mar 30 13:31 0000:05:00.0 -&gt; ../../../devices/pci0000:00/0000:00:1c.4/0000:05:00.0/</span><br><span class="line"></span><br><span class="line">//lspci的结果</span><br><span class="line">root@dell:~# lspci</span><br><span class="line">00:00.0 Host bridge: Intel Corporation 4th Gen Core Processor DRAM Controller (rev 06)</span><br><span class="line">00:01.0 PCI bridge: Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor PCI Express x16 Controller (rev 06)</span><br><span class="line">00:02.0 VGA compatible controller: Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor Integrated Graphics Controller (rev 06)</span><br><span class="line">00:03.0 Audio device: Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor HD Audio Controller (rev 06)</span><br><span class="line">00:14.0 USB controller: Intel Corporation 8 Series/C220 Series Chipset Family USB xHCI (rev 04)</span><br><span class="line">00:16.0 Communication controller: Intel Corporation 8 Series/C220 Series Chipset Family MEI Controller #1 (rev 04)</span><br><span class="line">00:1a.0 USB controller: Intel Corporation 8 Series/C220 Series Chipset Family USB EHCI #2 (rev 04)</span><br><span class="line">00:1b.0 Audio device: Intel Corporation 8 Series/C220 Series Chipset High Definition Audio Controller (rev 04)</span><br><span class="line">00:1c.0 PCI bridge: Intel Corporation 8 Series/C220 Series Chipset Family PCI Express Root Port #1 (rev d4)</span><br><span class="line">00:1c.1 PCI bridge: Intel Corporation 8 Series/C220 Series Chipset Family PCI Express Root Port #2 (rev d4)</span><br><span class="line">00:1c.4 PCI bridge: Intel Corporation 8 Series/C220 Series Chipset Family PCI Express Root Port #5 (rev d4)</span><br><span class="line">00:1d.0 USB controller: Intel Corporation 8 Series/C220 Series Chipset Family USB EHCI #1 (rev 04)</span><br><span class="line">00:1f.0 ISA bridge: Intel Corporation Q87 Express LPC Controller (rev 04)</span><br><span class="line">00:1f.2 RAID bus controller: Intel Corporation SATA Controller [RAID mode] (rev 04)</span><br><span class="line">00:1f.3 SMBus: Intel Corporation 8 Series/C220 Series Chipset Family SMBus Controller (rev 04)</span><br><span class="line">01:00.0 Ethernet controller: Intel Corporation I350 Gigabit Network Connection (rev 01)</span><br><span class="line">01:00.1 Ethernet controller: Intel Corporation I350 Gigabit Network Connection (rev 01)</span><br><span class="line">03:00.0 PCI bridge: Texas Instruments XIO2001 PCI Express-to-PCI Bridge</span><br><span class="line">05:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller </span><br></pre></td></tr></table></figure>
+<p>可以看到1c.1下面接了一个设备是03:00.0，这是一个PCI Bridge设备，扩展出了bus 04，上面没有挂载其它设备。</p>
+<p>在网上也查到了这种奇怪拓扑的解释：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://unix.stackexchange.com/questions/505605/how-to-interpret-lspci-tvv-output">command line - How to interpret lspci -tvv output - Unix &amp; Linux Stack Exchange</a></li>
+<li><a target="_blank" rel="noopener" href="https://superuser.com/questions/1375202/how-to-understand-lspci-tree-format">linux - How to understand lspci tree format? - Super User</a><br>总之按我自己理解的意思是1c.1是一个桥设备，它以及它的child扩展出了多个连续的总线，所以用[]包围起来，在本例中，1c.1扩展出bus 03 ，bus 03上面连接了03:00.0，然后又扩展出来了一个bus 04，所以对于1c.1来说后面就扩展出来了两条总线。</li>
+</ul>
+<p>还看到了更复杂的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+-[0000:3a]-+-00.0-[3b-3d]----00.0-[3c-3d]----03.0-[3d]----00.0  Intel Corporation Ethernet Connection X722</span><br><span class="line">|           +-05.0  Intel Corporation Sky Lake-E VT-d</span><br></pre></td></tr></table></figure>
+<p>3a:00.0后面扩展出3b-3d的总线，这些总线是由两个PCI Bridge设备通过两级扩展得来的，可能是3b:00.0扩展了bus 3c，第二级3c:00.0扩展了bus 3d，最终3d总线连接了一个3d:00.0的Ethernet设备。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/PCIe/" rel="tag"># PCIe</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/27/newPost%20-%20%E5%89%AF%E6%9C%AC/" rel="prev" title="newPost">
+                  <i class="fa fa-chevron-left"></i> newPost
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhu</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"hexo-comment-server.vercel.app","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":false,"comment_count":true,"requiredFields":[],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2023/06/03/Linux%20PCIe%20Topology/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+</body>
+</html>

@@ -121,17 +121,17 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -148,6 +148,119 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/03/Linux%20PCIe%20Topology/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个人的世界">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 一个人的世界">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/03/Linux%20PCIe%20Topology/" class="post-title-link" itemprop="url">PCIe 拓扑结构</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-06-03 07:18:22 / 修改时间：07:15:10" itemprop="dateCreated datePublished" datetime="2023-06-03T07:18:22+08:00">2023-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/PCIE/" itemprop="url" rel="index"><span itemprop="name">PCIE</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2023/06/03/Linux%20PCIe%20Topology/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2023/06/03/Linux%20PCIe%20Topology/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Linux下查看当前的PCI拓扑图，得到的结果如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">root@dell:~# lspci -t</span><br><span class="line">-[0000:00]-+-00.0</span><br><span class="line">           +-01.0-[01]--+-00.0</span><br><span class="line">           |            \-00.1</span><br><span class="line">           +-02.0</span><br><span class="line">           +-03.0</span><br><span class="line">           +-14.0</span><br><span class="line">           +-16.0</span><br><span class="line">           +-1a.0</span><br><span class="line">           +-1b.0</span><br><span class="line">           +-1c.0-[02]--</span><br><span class="line">           +-1c.1-[03-04]----00.0-[04]--</span><br><span class="line">           +-1c.4-[05]----00.0</span><br><span class="line">           +-1d.0</span><br><span class="line">           +-1f.0</span><br><span class="line">           +-1f.2</span><br><span class="line">           \-1f.3</span><br></pre></td></tr></table></figure>
+
+<p>你也可以加上-v来查看更多的具体信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">root@dell:~# lspci -tv</span><br><span class="line">-[0000:00]-+-00.0  Intel Corporation 4th Gen Core Processor DRAM Controller</span><br><span class="line">           +-01.0-[01]--+-00.0  Intel Corporation I350 Gigabit Network Connection</span><br><span class="line">           |            \-00.1  Intel Corporation I350 Gigabit Network Connection</span><br><span class="line">           +-02.0  Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor Integrated Graphics Controller</span><br><span class="line">           +-03.0  Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor HD Audio Controller</span><br><span class="line">           +-14.0  Intel Corporation 8 Series/C220 Series Chipset Family USB xHCI</span><br><span class="line">           +-16.0  Intel Corporation 8 Series/C220 Series Chipset Family MEI Controller #1</span><br><span class="line">           +-1a.0  Intel Corporation 8 Series/C220 Series Chipset Family USB EHCI #2</span><br><span class="line">           +-1b.0  Intel Corporation 8 Series/C220 Series Chipset High Definition Audio Controller</span><br><span class="line">           +-1c.0-[02]--</span><br><span class="line">           +-1c.1-[03-04]----00.0-[04]--</span><br><span class="line">           +-1c.4-[05]----00.0  Samsung Electronics Co Ltd NVMe SSD Controller PM173X</span><br><span class="line">           +-1d.0  Intel Corporation 8 Series/C220 Series Chipset Family USB EHCI #1</span><br><span class="line">           +-1f.0  Intel Corporation Q87 Express LPC Controller</span><br><span class="line">           +-1f.2  Intel Corporation SATA Controller [RAID mode]</span><br><span class="line">           \-1f.3  Intel Corporation 8 Series/C220 Series Chipset Family SMBus Controller</span><br></pre></td></tr></table></figure>
+<p>从上面的拓扑结构中可以看出，只有一个domain，然后bus 00下面挂载了多个设备。</p>
+<ul>
+<li><strong>普通设备</strong>：00.0、02.0、03.0、14.0、16.0、1a.0、1b.0、1d.0、1f.0-3 </li>
+<li><strong>桥设备</strong>：01.0、1c.0-4<br>其中01.0桥设备扩展出bus 01，bus 01下面挂载了一个多Function设备；1c.0 桥设备扩展出bus 02，但是上面没有挂载设备。</li>
+</ul>
+<p>当然上面1c.1桥设备的连接还是很奇怪，看一下&#x3D;&#x3D;&#x2F;sys&#x2F;bus&#x2F;pci&#x2F;devices&#x3D;&#x3D;中的设备连接以及lspci的结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">lrwxrwxrwx 1 root root 0 Mar 30 13:11 0000:01:00.0 -&gt; ../../../devices/pci0000:00/0000:00:01.0/0000:01:00.0/</span><br><span class="line">lrwxrwxrwx 1 root root 0 Mar 30 13:11 0000:01:00.1 -&gt; ../../../devices/pci0000:00/0000:00:01.0/0000:01:00.1/</span><br><span class="line">lrwxrwxrwx 1 root root 0 Mar 30 13:11 0000:03:00.0 -&gt; ../../../devices/pci0000:00/0000:00:1c.1/0000:03:00.0/</span><br><span class="line">lrwxrwxrwx 1 root root 0 Mar 30 13:31 0000:05:00.0 -&gt; ../../../devices/pci0000:00/0000:00:1c.4/0000:05:00.0/</span><br><span class="line"></span><br><span class="line">//lspci的结果</span><br><span class="line">root@dell:~# lspci</span><br><span class="line">00:00.0 Host bridge: Intel Corporation 4th Gen Core Processor DRAM Controller (rev 06)</span><br><span class="line">00:01.0 PCI bridge: Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor PCI Express x16 Controller (rev 06)</span><br><span class="line">00:02.0 VGA compatible controller: Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor Integrated Graphics Controller (rev 06)</span><br><span class="line">00:03.0 Audio device: Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor HD Audio Controller (rev 06)</span><br><span class="line">00:14.0 USB controller: Intel Corporation 8 Series/C220 Series Chipset Family USB xHCI (rev 04)</span><br><span class="line">00:16.0 Communication controller: Intel Corporation 8 Series/C220 Series Chipset Family MEI Controller #1 (rev 04)</span><br><span class="line">00:1a.0 USB controller: Intel Corporation 8 Series/C220 Series Chipset Family USB EHCI #2 (rev 04)</span><br><span class="line">00:1b.0 Audio device: Intel Corporation 8 Series/C220 Series Chipset High Definition Audio Controller (rev 04)</span><br><span class="line">00:1c.0 PCI bridge: Intel Corporation 8 Series/C220 Series Chipset Family PCI Express Root Port #1 (rev d4)</span><br><span class="line">00:1c.1 PCI bridge: Intel Corporation 8 Series/C220 Series Chipset Family PCI Express Root Port #2 (rev d4)</span><br><span class="line">00:1c.4 PCI bridge: Intel Corporation 8 Series/C220 Series Chipset Family PCI Express Root Port #5 (rev d4)</span><br><span class="line">00:1d.0 USB controller: Intel Corporation 8 Series/C220 Series Chipset Family USB EHCI #1 (rev 04)</span><br><span class="line">00:1f.0 ISA bridge: Intel Corporation Q87 Express LPC Controller (rev 04)</span><br><span class="line">00:1f.2 RAID bus controller: Intel Corporation SATA Controller [RAID mode] (rev 04)</span><br><span class="line">00:1f.3 SMBus: Intel Corporation 8 Series/C220 Series Chipset Family SMBus Controller (rev 04)</span><br><span class="line">01:00.0 Ethernet controller: Intel Corporation I350 Gigabit Network Connection (rev 01)</span><br><span class="line">01:00.1 Ethernet controller: Intel Corporation I350 Gigabit Network Connection (rev 01)</span><br><span class="line">03:00.0 PCI bridge: Texas Instruments XIO2001 PCI Express-to-PCI Bridge</span><br><span class="line">05:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller </span><br></pre></td></tr></table></figure>
+<p>可以看到1c.1下面接了一个设备是03:00.0，这是一个PCI Bridge设备，扩展出了bus 04，上面没有挂载其它设备。</p>
+<p>在网上也查到了这种奇怪拓扑的解释：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://unix.stackexchange.com/questions/505605/how-to-interpret-lspci-tvv-output">command line - How to interpret lspci -tvv output - Unix &amp; Linux Stack Exchange</a></li>
+<li><a target="_blank" rel="noopener" href="https://superuser.com/questions/1375202/how-to-understand-lspci-tree-format">linux - How to understand lspci tree format? - Super User</a><br>总之按我自己理解的意思是1c.1是一个桥设备，它以及它的child扩展出了多个连续的总线，所以用[]包围起来，在本例中，1c.1扩展出bus 03 ，bus 03上面连接了03:00.0，然后又扩展出来了一个bus 04，所以对于1c.1来说后面就扩展出来了两条总线。</li>
+</ul>
+<p>还看到了更复杂的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+-[0000:3a]-+-00.0-[3b-3d]----00.0-[3c-3d]----03.0-[3d]----00.0  Intel Corporation Ethernet Connection X722</span><br><span class="line">|           +-05.0  Intel Corporation Sky Lake-E VT-d</span><br></pre></td></tr></table></figure>
+<p>3a:00.0后面扩展出3b-3d的总线，这些总线是由两个PCI Bridge设备通过两级扩展得来的，可能是3b:00.0扩展了bus 3c，第二级3c:00.0扩展了bus 3d，最终3d总线连接了一个3d:00.0的Ethernet设备。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1080,113 +1193,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/06/21/JDBC%E8%BF%9E%E6%8E%A5%E6%AD%A5%E9%AA%A4/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2016/06/20/JDBC%E7%BB%9F%E8%AE%A1%E6%9F%A5%E8%AF%A2%E6%9D%A1%E7%9B%AE%E6%95%B0%E7%9B%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个人的世界">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 一个人的世界">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/06/20/JDBC%E7%BB%9F%E8%AE%A1%E6%9F%A5%E8%AF%A2%E6%9D%A1%E7%9B%AE%E6%95%B0%E7%9B%AE/" class="post-title-link" itemprop="url">JDBC统计查询条目数目</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-06-20 22:18:22" itemprop="dateCreated datePublished" datetime="2016-06-20T22:18:22+08:00">2016-06-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-02-22 22:46:24" itemprop="dateModified" datetime="2023-02-22T22:46:24+08:00">2023-02-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-    <span class="post-meta-item-icon">
-      <i class="far fa-comment"></i>
-    </span>
-    <span class="post-meta-item-text">Waline：</span>
-  
-    <a title="waline" href="/2016/06/20/JDBC%E7%BB%9F%E8%AE%A1%E6%9F%A5%E8%AF%A2%E6%9D%A1%E7%9B%AE%E6%95%B0%E7%9B%AE/#waline" itemprop="discussionUrl">
-      <span class="post-comments-count waline-comment-count" data-path="/2016/06/20/JDBC%E7%BB%9F%E8%AE%A1%E6%9F%A5%E8%AF%A2%E6%9D%A1%E7%9B%AE%E6%95%B0%E7%9B%AE/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>JDBC中可以执行基本的查询操作，有的时候我们会需要统计符合相关条件条目的数目，但是<br>JDBC并没有提供相关的API来得到该信息。但是通过下面几种操作能够实现：</p>
-<h1 id="通过统计ResutSet中条目数目进行操作"><a href="#通过统计ResutSet中条目数目进行操作" class="headerlink" title="通过统计ResutSet中条目数目进行操作"></a>通过统计ResutSet中条目数目进行操作</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ResultSet set = stat.executeQuery(&quot;select * from tableName&quot;);</span><br><span class="line">int countNum = 0;</span><br><span class="line">while(set.next())</span><br><span class="line">&#123;</span><br><span class="line">    countNum++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/06/20/JDBC%E7%BB%9F%E8%AE%A1%E6%9F%A5%E8%AF%A2%E6%9D%A1%E7%9B%AE%E6%95%B0%E7%9B%AE/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
