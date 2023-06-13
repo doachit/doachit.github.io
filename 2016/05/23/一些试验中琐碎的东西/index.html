@@ -167,8 +167,9 @@
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">15</span>
-        <span class="site-state-item-name">标签</span>
+          <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -271,15 +272,44 @@
 <span id="more"></span>
 <p>csv文件的内容如下：<br />
 <img src="http://www.kyctj.com/doit/wp-content/uploads/2016/05/1-199x300.jpg" alt="matlab源数据示意" /></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">BufferedReader</span> <span class="variable">input</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;my1.CSV&quot;</span>));</span><br><span class="line">            <span class="type">FileWriter</span> <span class="variable">outWriter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileWriter</span>(<span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;outFile.txt&quot;</span>));</span><br><span class="line">            String line;</span><br><span class="line">            String lineDataString;</span><br><span class="line">            <span class="keyword">while</span>((line = input.readLine()) != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                lineDataString = <span class="keyword">new</span> <span class="title class_">BigDecimal</span>(line.split(<span class="string">&quot;,&quot;</span>)[<span class="number">2</span>] ).toPlainString();</span><br><span class="line">                System.out.println(lineDataString);</span><br><span class="line">                outWriter.write(lineDataString);</span><br><span class="line">                outWriter.write(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            input.close();</span><br><span class="line">            outWriter.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">BufferedReader</span> input <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BufferedReader</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">FileReader</span><span class="token punctuation">(</span><span class="token string">"my1.CSV"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">FileWriter</span> outWriter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileWriter</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"outFile.txt"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">String</span> line<span class="token punctuation">;</span>
+            <span class="token class-name">String</span> lineDataString<span class="token punctuation">;</span>
+            <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token punctuation">(</span>line <span class="token operator">=</span> input<span class="token punctuation">.</span><span class="token function">readLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                lineDataString <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BigDecimal</span><span class="token punctuation">(</span>line<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toPlainString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>lineDataString<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                outWriter<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>lineDataString<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                outWriter<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            input<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            outWriter<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">// TODO Auto-generated catch block</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>后续就可以对这个数据文件进行处理。</p>
 <p>需要注意的是我在读取CSV文件的时候会发现有java.lang.ArrayIndexOutOfBoundsException的错误，经过试验发现是因为数据的内容过少—-》把CSV文件用excel打开会发现一个工作表有1900多个条目，但是我的数据只有几百行。当然我在数据开始添加了很多空行并没有错误，因此<code>csv文件的数据一定要保证填满整个工作表</code>。</p>
 <h1 id="matlab调取数据文件画图"><a class="markdownIt-Anchor" href="#matlab调取数据文件画图"></a> matlab调取数据文件画图</h1>
 <p>如上，当我们得到了上述文件后可以用matlab画图对数据进行进一步的分析,想要将数据画图显示出来只需要简单的命令：</p>
 <h2 id="多幅图像多个窗口"><a class="markdownIt-Anchor" href="#多幅图像多个窗口"></a> 多幅图像多个窗口</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">figure</span><br><span class="line">y=load(&#x27;detail_0.txt&#x27;);//加载你的数据文件</span><br><span class="line">plot(y);</span><br><span class="line">figure</span><br><span class="line">y=load(&#x27;detail_1.txt&#x27;);//加载你的数据文件</span><br><span class="line">plot(y);</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">figure
+y&#x3D;load(&#39;detail_0.txt&#39;);&#x2F;&#x2F;加载你的数据文件
+plot(y);
+figure
+y&#x3D;load(&#39;detail_1.txt&#39;);&#x2F;&#x2F;加载你的数据文件
+plot(y);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="多幅图像不同颜色在一个坐标轴下"><a class="markdownIt-Anchor" href="#多幅图像不同颜色在一个坐标轴下"></a> 多幅图像不同颜色在一个坐标轴下</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">figure</span><br><span class="line">y=load(&#x27;detail_0.txt&#x27;);</span><br><span class="line">plot(y,&#x27;-b&#x27;);//蓝色实线</span><br><span class="line">hold on</span><br><span class="line">y1=load(&#x27;detail_1.txt&#x27;);</span><br><span class="line">plot(y1,&#x27;-r&#x27;);//红色实线</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">figure
+y&#x3D;load(&#39;detail_0.txt&#39;);
+plot(y,&#39;-b&#39;);&#x2F;&#x2F;蓝色实线
+hold on
+y1&#x3D;load(&#39;detail_1.txt&#39;);
+plot(y1,&#39;-r&#39;);&#x2F;&#x2F;红色实线<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>本文使用 <strong>{小书匠}编辑器</strong>发布。</p>
 
     </div>

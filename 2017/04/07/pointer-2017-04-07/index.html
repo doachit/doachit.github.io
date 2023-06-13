@@ -168,8 +168,9 @@
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">15</span>
-        <span class="site-state-item-name">标签</span>
+          <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -287,44 +288,202 @@
 <div class="note primary"><p>对于所谓指针传递，值传递，本质上是把一个盒子的标号或者盒子里面的东西放到另外一个盒子里的操作。</p>
 </div>
 <p>对于这样的两个函数来说</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun</span><span class="params">(<span class="type">int</span> a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun2</span><span class="params">(<span class="type">int</span> *a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">void fun(int a)
+&#123;
+&#125;
+void fun2(int *a)
+&#123;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>事实上<code>int a</code>,<code>int *a</code>作为形参是拥有自己的盒子的，也就是拥有自己的独立空间。这个时候数据的相互传递的实质是把实参变量对应盒子<code>里面存放的东西</code>或者<code>该盒子的标号</code>放到了形参变量对应的盒子里。所谓大道至简，莫过于此。<br />
 因此对于通过传递指针来改变一个数的值情况来说，本质上都是通过获取到某个盒子的标号来改变盒子里的内容来实现的。<br />
 那么对于下面的程序会出现错误结果的原因，我们也能用我们的&quot;火眼金睛&quot;来看穿它的本质了。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun1</span><span class="params">(<span class="type">int</span> *m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;fun1----&quot;</span>&lt;&lt;m&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;m&lt;&lt;endl;</span><br><span class="line">	m = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;fun1----&quot;</span>&lt;&lt;m&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;m&lt;&lt;endl;</span><br><span class="line">	*m = <span class="number">15</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> *p = <span class="literal">NULL</span>;</span><br><span class="line">	cout&lt;&lt;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;p&lt;&lt;endl;</span><br><span class="line">	<span class="built_in">fun1</span>(p);</span><br><span class="line">	cout&lt;&lt;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;p&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*********************************************/</span></span><br><span class="line">运行结果:</span><br><span class="line"></span><br><span class="line"><span class="number">0</span>---<span class="number">-0x22feac</span></span><br><span class="line">fun1---<span class="number">-0</span>---<span class="number">-0x22fe90</span></span><br><span class="line">fun1---<span class="number">-0x6562f0</span>---<span class="number">-0x22fe90</span></span><br><span class="line"><span class="number">0</span>---<span class="number">-0x22feac</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">void fun1(int *m)
+&#123;
+	cout&lt;&lt;&quot;fun1----&quot;&lt;&lt;m&lt;&lt;&quot;----&quot;&lt;&lt;&amp;m&lt;&lt;endl;
+	m &#x3D; (int *)malloc(sizeof(int));
+	cout&lt;&lt;&quot;fun1----&quot;&lt;&lt;m&lt;&lt;&quot;----&quot;&lt;&lt;&amp;m&lt;&lt;endl;
+	*m &#x3D; 15;
+&#125;
+int main(void)
+&#123;
+	int *p &#x3D; NULL;
+	cout&lt;&lt;p&lt;&lt;&quot;----&quot;&lt;&lt;&amp;p&lt;&lt;endl;
+	fun1(p);
+	cout&lt;&lt;p&lt;&lt;&quot;----&quot;&lt;&lt;&amp;p&lt;&lt;endl;
+	return 0;
+&#125;
+&#x2F;*********************************************&#x2F;
+运行结果:
+
+0----0x22feac
+fun1----0----0x22fe90
+fun1----0x6562f0----0x22fe90
+0----0x22feac<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>可以看出形参是有自己专属的盒子（独立的内存空间）。在实参p向形参传递数据的时候，将自己盒子里面的内容复制了一份传给了形参。之后形参就对着自己盒子里面的东西一顿摆弄，然而实参盒子里面的东西变化了么？自然是没有变化的。所以p依然是一个空的指针，如果你去访问p存放的指针对应的值，就会崩~~~炸了（程序崩溃）。</p>
 <p>那么我们如何改变P的值呢？最最关键的是改变P的盒子里面装的内容！<br />
 你可以这样：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> *<span class="title">fun2</span><span class="params">(<span class="type">int</span> *m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;fun1----&quot;</span>&lt;&lt;m&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;m&lt;&lt;endl;</span><br><span class="line">	m = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;fun1----&quot;</span>&lt;&lt;m&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;m&lt;&lt;endl;</span><br><span class="line">	*m = <span class="number">15</span>;</span><br><span class="line">	<span class="keyword">return</span> m;	</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> *p = <span class="literal">NULL</span>;</span><br><span class="line">	cout&lt;&lt;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;p&lt;&lt;endl;</span><br><span class="line">	p=<span class="built_in">fun2</span>(p);</span><br><span class="line">	cout&lt;&lt;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;*p&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*********************************************/</span></span><br><span class="line">运行结果：</span><br><span class="line"><span class="number">0</span>---<span class="number">-0x22feac</span></span><br><span class="line">fun1---<span class="number">-0</span>---<span class="number">-0x22fe90</span></span><br><span class="line">fun1---<span class="number">-0x5f62f0</span>---<span class="number">-0x22fe90</span></span><br><span class="line"><span class="number">0x5f62f0</span>---<span class="number">-0x22feac</span>---<span class="number">-15</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">int *fun2(int *m)
+&#123;
+	cout&lt;&lt;&quot;fun1----&quot;&lt;&lt;m&lt;&lt;&quot;----&quot;&lt;&lt;&amp;m&lt;&lt;endl;
+	m &#x3D; (int *)malloc(sizeof(int));
+	cout&lt;&lt;&quot;fun1----&quot;&lt;&lt;m&lt;&lt;&quot;----&quot;&lt;&lt;&amp;m&lt;&lt;endl;
+	*m &#x3D; 15;
+	return m;	
+&#125;
+int main(void)
+&#123;
+	int *p &#x3D; NULL;
+	cout&lt;&lt;p&lt;&lt;&quot;----&quot;&lt;&lt;&amp;p&lt;&lt;endl;
+	p&#x3D;fun2(p);
+	cout&lt;&lt;p&lt;&lt;&quot;----&quot;&lt;&lt;&amp;p&lt;&lt;&quot;----&quot;&lt;&lt;*p&lt;&lt;endl;
+	return 0;
+&#125;
+&#x2F;*********************************************&#x2F;
+运行结果：
+0----0x22feac
+fun1----0----0x22fe90
+fun1----0x5f62f0----0x22fe90
+0x5f62f0----0x22feac----15<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>当然也可以这样：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun3</span><span class="params">(<span class="type">int</span> **m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	*m = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">	**m = <span class="number">23</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> *p = <span class="literal">NULL</span>;</span><br><span class="line">	cout&lt;&lt;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;p&lt;&lt;endl;</span><br><span class="line">	<span class="built_in">fun3</span>((<span class="type">int</span> **)&amp;p);</span><br><span class="line">	cout&lt;&lt;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;p&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;*p&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*********************************************/</span></span><br><span class="line">运行结果：</span><br><span class="line"><span class="number">0</span>---<span class="number">-0x22feac</span></span><br><span class="line"><span class="number">0x6462f0</span>---<span class="number">-0x22feac</span>---<span class="number">-23</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">void fun3(int **m)
+&#123;
+	*m &#x3D; (int *)malloc(sizeof(int));
+	**m &#x3D; 23;
+&#125;
+int main(void)
+&#123;
+	int *p &#x3D; NULL;
+	cout&lt;&lt;p&lt;&lt;&quot;----&quot;&lt;&lt;&amp;p&lt;&lt;endl;
+	fun3((int **)&amp;p);
+	cout&lt;&lt;p&lt;&lt;&quot;----&quot;&lt;&lt;&amp;p&lt;&lt;&quot;----&quot;&lt;&lt;*p&lt;&lt;endl;
+	return 0;
+&#125;
+&#x2F;*********************************************&#x2F;
+运行结果：
+0----0x22feac
+0x6462f0----0x22feac----23<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h1 id="引用传递"><a class="markdownIt-Anchor" href="#引用传递"></a> 引用传递</h1>
 <p>引用传递是一种完全的传递，是一个完整个体的传递，它传递的东西包括盒子的标号和盒子里面的内容。</p>
 <h2 id="对于变量引用来说"><a class="markdownIt-Anchor" href="#对于变量引用来说"></a> 对于变量引用来说</h2>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> i = <span class="number">10</span>;</span><br><span class="line">	<span class="type">int</span> &amp;j = i;</span><br><span class="line">	cout&lt;&lt;&amp;i&lt;&lt;endl&lt;&lt;&amp;j&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125; 	</span><br><span class="line"><span class="comment">/*********************************************/</span></span><br><span class="line">运行结果：</span><br><span class="line"></span><br><span class="line"><span class="number">0x22fea8</span></span><br><span class="line"><span class="number">0x22fea8</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">int main()
+&#123;
+	int i &#x3D; 10;
+	int &amp;j &#x3D; i;
+	cout&lt;&lt;&amp;i&lt;&lt;endl&lt;&lt;&amp;j&lt;&lt;endl;
+	return 0;
+ &#125; 	
+&#x2F;*********************************************&#x2F;
+运行结果：
+
+0x22fea8
+0x22fea8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="对于函数形参引用传递-funint-i类型"><a class="markdownIt-Anchor" href="#对于函数形参引用传递-funint-i类型"></a> 对于函数形参引用传递-fun(int &amp;i)类型</h2>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun4</span><span class="params">(<span class="type">int</span> &amp;i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;in fun4---&quot;</span>;</span><br><span class="line">	cout&lt;&lt;i&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;i&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> i = <span class="number">10</span>;</span><br><span class="line">	<span class="type">int</span> &amp;j = i;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;Before---&quot;</span>&lt;&lt;&amp;i&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;j&lt;&lt;endl;</span><br><span class="line">	<span class="built_in">fun4</span>(i);</span><br><span class="line">	<span class="built_in">fun4</span>(j);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125; 	</span><br><span class="line"><span class="comment">/*********************************************/</span></span><br><span class="line">运行结果：</span><br><span class="line"></span><br><span class="line">Before--<span class="number">-0x22fea8</span>---<span class="number">-0x22fea8</span></span><br><span class="line">in fun4--<span class="number">-10</span>---<span class="number">-0x22fea8</span></span><br><span class="line">in fun4--<span class="number">-10</span>---<span class="number">-0x22fea8</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">void fun4(int &amp;i)
+&#123;
+	cout&lt;&lt;&quot;in fun4---&quot;;
+	cout&lt;&lt;i&lt;&lt;&quot;----&quot;&lt;&lt;&amp;i&lt;&lt;endl;
+&#125;
+int main()
+&#123;
+	int i &#x3D; 10;
+	int &amp;j &#x3D; i;
+	cout&lt;&lt;&quot;Before---&quot;&lt;&lt;&amp;i&lt;&lt;&quot;----&quot;&lt;&lt;&amp;j&lt;&lt;endl;
+	fun4(i);
+	fun4(j);
+	return 0;
+ &#125; 	
+&#x2F;*********************************************&#x2F;
+运行结果：
+
+Before---0x22fea8----0x22fea8
+in fun4---10----0x22fea8
+in fun4---10----0x22fea8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="对于函数形参引用传递-funint-i"><a class="markdownIt-Anchor" href="#对于函数形参引用传递-funint-i"></a> 对于函数形参引用传递-fun(int *&amp;i)</h2>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun3</span><span class="params">(<span class="type">int</span> *&amp;i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;In fun3----&quot;</span>;</span><br><span class="line">	cout&lt;&lt;i&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;i&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> i = <span class="number">10</span>;</span><br><span class="line">	<span class="type">int</span> &amp;j = i;</span><br><span class="line">	<span class="type">int</span> *p = &amp;i;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;Before---&quot;</span>&lt;&lt;&amp;i&lt;&lt;<span class="string">&quot;----&quot;</span>&lt;&lt;&amp;j&lt;&lt;endl;</span><br><span class="line">	cout&lt;&lt;<span class="string">&quot;P------&quot;</span>&lt;&lt;p&lt;&lt;<span class="string">&quot;------&quot;</span>&lt;&lt;&amp;p&lt;&lt;endl;</span><br><span class="line">	<span class="built_in">fun3</span>(p);<span class="comment">//这里不能传递&amp;i的值</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125; 	</span><br><span class="line"><span class="comment">/*********************************************/</span></span><br><span class="line">运行结果：</span><br><span class="line"></span><br><span class="line">Before--<span class="number">-0x22fea8</span>---<span class="number">-0x22fea8</span></span><br><span class="line">P-----<span class="number">-0x22fea8</span>-----<span class="number">-0x22fea4</span></span><br><span class="line">In fun3---<span class="number">-0x22fea8</span>---<span class="number">-0x22fea4</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">void fun3(int *&amp;i)
+&#123;
+	cout&lt;&lt;&quot;In fun3----&quot;;
+	cout&lt;&lt;i&lt;&lt;&quot;----&quot;&lt;&lt;&amp;i&lt;&lt;endl;
+&#125;
+int main()
+&#123;
+	int i &#x3D; 10;
+	int &amp;j &#x3D; i;
+	int *p &#x3D; &amp;i;
+	cout&lt;&lt;&quot;Before---&quot;&lt;&lt;&amp;i&lt;&lt;&quot;----&quot;&lt;&lt;&amp;j&lt;&lt;endl;
+	cout&lt;&lt;&quot;P------&quot;&lt;&lt;p&lt;&lt;&quot;------&quot;&lt;&lt;&amp;p&lt;&lt;endl;
+	fun3(p);&#x2F;&#x2F;这里不能传递&amp;i的值
+	return 0;
+ &#125; 	
+&#x2F;*********************************************&#x2F;
+运行结果：
+
+Before---0x22fea8----0x22fea8
+P------0x22fea8------0x22fea4
+In fun3----0x22fea8----0x22fea4<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>引用传递是完全的传递在这里更能明显的表示出来。在fun3函数中我们可以看出传递进来的是p对应的变量盒子的整体，包括盒子的标号（p的地址）和盒子的内容（指针变量保存的地址），两者缺一不可，同时这也是传递<code>&amp;i</code>会报错的原因（它只是传递了盒子的标号—变量的地址，这和形参的类型是不同的）。</p>
 <h1 id="常量指针"><a class="markdownIt-Anchor" href="#常量指针"></a> 常量指针</h1>
 <p>对于常量指针有这样的三种形式：<br />
 <code>int * const p</code>:这种情况下可以理解为当前盒子里面的内容是不能进行改变的。就像上了锁的保险箱，里面存放了另外一个箱子的标号，当前箱子里面存放的标号不能被更改，但是这个标号对应的箱子里面的东西你却可以随便更改。<br />
 举例如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> m = <span class="number">5</span>;</span><br><span class="line">    <span class="type">int</span> n = <span class="number">6</span>;</span><br><span class="line">    <span class="type">int</span> * <span class="type">const</span> p = &amp;m;</span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl;<span class="comment">//5</span></span><br><span class="line">    m = n;</span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl;<span class="comment">//6</span></span><br><span class="line">    p = &amp;n; <span class="comment">//不能进行修改</span></span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">int main()
+&#123;
+    int m &#x3D; 5;
+    int n &#x3D; 6;
+    int * const p &#x3D; &amp;m;
+    cout&lt;&lt;*p&lt;&lt;endl;&#x2F;&#x2F;5
+    m &#x3D; n;
+    cout&lt;&lt;*p&lt;&lt;endl;&#x2F;&#x2F;6
+    p &#x3D; &amp;n; &#x2F;&#x2F;不能进行修改
+    cout&lt;&lt;*p&lt;&lt;endl;
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><code>const int *p</code>:这种情况下可以理解为当前盒子里面存放的标号所对应的盒子里面的内容是不能进行改变的。这种情况类似于士兵，士兵的任务就是负责保护盒子里面的内容不被改变，但是士兵可以被派去保护不同的盒子。<br />
 举例如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> m = <span class="number">5</span>;</span><br><span class="line">    <span class="type">int</span> n = <span class="number">6</span>;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> * p = &amp;m;</span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl; <span class="comment">//5</span></span><br><span class="line">    p = &amp;n;</span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl;<span class="comment">//6</span></span><br><span class="line">    *p = n;			<span class="comment">//错误，不能进行修改</span></span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">int main()
+&#123;
+    int m &#x3D; 5;
+    int n &#x3D; 6;
+    const int * p &#x3D; &amp;m;
+    cout&lt;&lt;*p&lt;&lt;endl; &#x2F;&#x2F;5
+    p &#x3D; &amp;n;
+    cout&lt;&lt;*p&lt;&lt;endl;&#x2F;&#x2F;6
+    *p &#x3D; n;			&#x2F;&#x2F;错误，不能进行修改
+    cout&lt;&lt;*p&lt;&lt;endl;
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><code>const int * const p</code>:这种情况是上述两种情况的结合，即当前盒子不能改变，里面存放的东西也是不能动的。</p>
 <h1 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h1>
 <p id="div-border-top-red">1.本质上值传递和指针传递是一种类型，它们传递的过程中只传输一个变量的一种属性（地址或者是改地址存放的值）。但是引用传递会传输一个完整的变量，包括地址和地址存放的内容。
 2.对于值传递和指针传递来说，函数形参的来说都会单独分配一个独立的内存空间，但是引用传递不会，传递过来的是实参的实体。</p>
 # 额外的说明——数组名和指针的区别
 对于函数的值传递和参数传递来讲，在上面我们已经很清楚的了解了它们的本质。但是最近对于数组又有了新的发现：
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> a = <span class="number">5</span>;</span><br><span class="line">	<span class="type">int</span> m[<span class="number">1</span>]=&#123;a&#125;;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot; m----%X\n&quot;</span>,m);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;&amp;m----%X\n&quot;</span>,&amp;m);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;*m----%X\n&quot;</span>,&amp;m[<span class="number">0</span>]);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;&amp;a----%X\n&quot;</span>,&amp;a);</span><br><span class="line">&#125; 	</span><br><span class="line">运行结果：</span><br><span class="line"> m---<span class="number">-28F</span>F04</span><br><span class="line">&amp;m---<span class="number">-28F</span>F04</span><br><span class="line">*m---<span class="number">-28F</span>F04</span><br><span class="line">&amp;a---<span class="number">-28F</span>F08</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-C" data-language="C"><code class="language-C">int main()
+&#123;
+	int a &#x3D; 5;
+	int m[1]&#x3D;&#123;a&#125;;
+	printf(&quot; m----%X\n&quot;,m);
+	printf(&quot;&amp;m----%X\n&quot;,&amp;m);
+	printf(&quot;*m----%X\n&quot;,&amp;m[0]);
+	printf(&quot;&amp;a----%X\n&quot;,&amp;a);
+&#125; 	
+运行结果：
+ m----28FF04
+&amp;m----28FF04
+*m----28FF04
+&amp;a----28FF08<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 数组名和指针是由区别的：数组名不是一个变量，它没有自己的独立空间（没有自己的盒子！！），编译器解析为数组第一个元素的首地址，即数组名的值和数组中第一个元素存放的地址相同。本质上数组名对应的地址是一个常量指针，因此不能直接对数组名进行自加减操作。同时因为数组名是一个地址，对它取地址实际上并没有什么意义。
 需要注意的是，当数组名作为sizeof和&操作符的操作数时需要特别对待。
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> <span class="built_in">array</span>[] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,<span class="keyword">sizeof</span>(<span class="built_in">array</span>));</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;array----%X\n&quot;</span>,<span class="built_in">array</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;array + 1----%X\n&quot;</span>,<span class="built_in">array</span> + <span class="number">1</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;&amp;array----%X\n&quot;</span>,&amp;<span class="built_in">array</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;&amp;array + 1----%X\n&quot;</span>,&amp;<span class="built_in">array</span> + <span class="number">1</span>);</span><br><span class="line">运行结果：</span><br><span class="line"><span class="built_in">array</span>---<span class="number">-28F</span>F04</span><br><span class="line"><span class="built_in">array</span> + <span class="number">1</span>---<span class="number">-28F</span>F05</span><br><span class="line">&amp;<span class="built_in">array</span>---<span class="number">-28F</span>F04</span><br><span class="line">&amp;<span class="built_in">array</span> + <span class="number">1</span>---<span class="number">-28F</span>F08</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-C" data-language="C"><code class="language-C">char array[] &#x3D; &#123;1,2,3,4&#125;;
+printf(&quot;%d\n&quot;,sizeof(array));
+printf(&quot;array----%X\n&quot;,array);
+printf(&quot;array + 1----%X\n&quot;,array + 1);
+printf(&quot;&amp;array----%X\n&quot;,&amp;array);
+printf(&quot;&amp;array + 1----%X\n&quot;,&amp;array + 1);
+运行结果：
+array----28FF04
+array + 1----28FF05
+&amp;array----28FF04
+&amp;array + 1----28FF08<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 显然我们可以得出这样的结论：
 1.array指向的是元素的首地址，加一操作之后指向下一个元素 ，本质上是指向元素的指针
 2.&array指向的是整个数组的地址，加一操作之后偏移了整个数组的长度，本质上是一个数组指针
