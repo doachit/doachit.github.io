@@ -275,33 +275,11 @@
 <strong>3.网络设备</strong></p>
 <span id="more"></span>
 <h2 id="linux内核模块结构"><a class="markdownIt-Anchor" href="#linux内核模块结构"></a> linux内核模块结构</h2>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">#include&lt;linux&#x2F;module.h&gt;
-
-MODELE_LICENSE(&quot;Dual BSD&#x2F;GPL&quot;);
-MODELE_AUTHOR(&quot;XXXX&quot;);
-MODELE_DESCRIPTION(&quot;XXXX&quot;);
-
-static void __init function_init(void)
-&#123;
-&#125;
-
-static void __exit function_exit(void)
-&#123;
-&#125;
-module_init(function_init);
-module_exit(function_exit);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;linux/module.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">MODELE_LICENSE(<span class="string">&quot;Dual BSD/GPL&quot;</span>);</span><br><span class="line">MODELE_AUTHOR(<span class="string">&quot;XXXX&quot;</span>);</span><br><span class="line">MODELE_DESCRIPTION(<span class="string">&quot;XXXX&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> __init <span class="title function_">function_init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> __exit <span class="title function_">function_exit</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line">module_init(function_init);</span><br><span class="line">module_exit(function_exit);</span><br></pre></td></tr></table></figure>
 <p>linux中所有驱动的编写都是基于此模板，另外linux模块也支持参数传递，支持传递的参数类型有：<code>int,long,short,uint</code>等。主要的函数有下面两种：</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">module_param(name,type,perm); &#x2F;&#x2F;支持单个参数
-module_param_array(name,type,*num,perm);&#x2F;&#x2F;支持输入数组<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">module_param(name,type,perm); <span class="comment">//支持单个参数</span></span><br><span class="line">module_param_array(name,type,*num,perm);<span class="comment">//支持输入数组</span></span><br></pre></td></tr></table></figure>
 <p>具体使用方法：</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">int arg0;
-int array[10];
-int arrayNum;
-
-module_param(arg0,int,S_IRUSR);
-module_param_array(array,int,&amp;arrayNum,S_IRUSR);
-
-insmod XXX.ko arg0&#x3D;10 array&#x3D;1,2,3,4   &#x2F;&#x2F;等号左右不要有空格<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> arg0;</span><br><span class="line"><span class="type">int</span> <span class="built_in">array</span>[<span class="number">10</span>];</span><br><span class="line"><span class="type">int</span> arrayNum;</span><br><span class="line"></span><br><span class="line">module_param(arg0,<span class="type">int</span>,S_IRUSR);</span><br><span class="line">module_param_array(<span class="built_in">array</span>,<span class="type">int</span>,&amp;arrayNum,S_IRUSR);</span><br><span class="line"></span><br><span class="line">insmod XXX.ko arg0=<span class="number">10</span> <span class="built_in">array</span>=<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>   <span class="comment">//等号左右不要有空格</span></span><br></pre></td></tr></table></figure>
 <h1 id="字符设备驱动"><a class="markdownIt-Anchor" href="#字符设备驱动"></a> 字符设备驱动</h1>
 <p>任何复杂事物的有条不紊运行都离不开一个个事先规划好的约束条件，linux系统也是如此。linux中的驱动有很多，那么上层应用如何在茫茫“驱动”的海中找到自己想要的那个TA呢？<br />
 首先你得要知道TA的一个信息：姓名、ID什么的都可以啦<sub>所以作为驱动个体来说都必须有自己的ID，这个ID也就是设备号了，但是-------linux中的设备号却只有256个。这样的话千千万万的屌丝驱动连一个身份证都没有，还想迎娶白富美走上人生巅峰，你痴人说梦呢。话又说回来，瘸子里面挑将军，茫茫驱动海中驱动也能分个三六九等，这样问题就解决了嘛。每个驱动都还是有一个号码，但是由两部分组成–&gt;主ID和次ID。主ID就对应着`主设备号`，代表我们都是一类嘛。次ID对应`次设备号`，代表着一类中的某一个。这样通过主次设备号的结合就能够确定到每一个具体的驱动了，于是就有无限可能了</sub>（虽然你丑，但是说不准有人眼瞎呢T^T）<br />
@@ -313,170 +291,17 @@ insmod XXX.ko arg0&#x3D;10 array&#x3D;1,2,3,4   &#x2F;&#x2F;等号左右不要�
 <strong>1.给字符设备分配ID，也就是设备号了，这里会涉及动态和静态分配。</strong><br />
 <strong>2.注册字符类设备，如果是多个同类设备的话还需要创建设备类。</strong><br />
 描述字符类设备的结构体以及主要函数：<code>include/linux/cdev.h</code>和<code>char_dev.c</code></p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">struct cdev 
-&#123;
-	struct kobject kobj;
-	struct module *owner;
-	const struct file_operations *ops;
-	struct list_head list;
-	dev_t dev;
-	unsigned int count;
-&#125;;
-
-void cdev_init(struct cdev *, const struct file_operations *);
-
-struct cdev *cdev_alloc(void);
-
-int cdev_add(struct cdev *, dev_t, unsigned);
-
-void cdev_del(struct cdev *);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cdev</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">kobject</span> <span class="title">kobj</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">module</span> *<span class="title">owner</span>;</span></span><br><span class="line">	<span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">file_operations</span> *<span class="title">ops</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">list</span>;</span></span><br><span class="line">	<span class="type">dev_t</span> dev;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">int</span> count;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">cdev_init</span><span class="params">(<span class="keyword">struct</span> cdev *, <span class="type">const</span> <span class="keyword">struct</span> file_operations *)</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> cdev *<span class="title function_">cdev_alloc</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">cdev_add</span><span class="params">(<span class="keyword">struct</span> cdev *, <span class="type">dev_t</span>, <span class="type">unsigned</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">cdev_del</span><span class="params">(<span class="keyword">struct</span> cdev *)</span>;</span><br></pre></td></tr></table></figure>
 <p>动态和静态申请设备号以及释放设备号:</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">int register_chrdev_region(dev_t from, unsigned count, const char *name);
-int alloc_chrdev_region(dev_t *dev, unsigned baseminor, unsigned count,const char *name);
-void unregister_chrdev_region(dev_t from, unsigned count);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">register_chrdev_region</span><span class="params">(<span class="type">dev_t</span> from, <span class="type">unsigned</span> count, <span class="type">const</span> <span class="type">char</span> *name)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">alloc_chrdev_region</span><span class="params">(<span class="type">dev_t</span> *dev, <span class="type">unsigned</span> baseminor, <span class="type">unsigned</span> count,<span class="type">const</span> <span class="type">char</span> *name)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">unregister_chrdev_region</span><span class="params">(<span class="type">dev_t</span> from, <span class="type">unsigned</span> count)</span>;</span><br></pre></td></tr></table></figure>
 <p>创建和摧毁设备类：<code>Include/linux/device.h</code></p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">struct device *device_create(struct class *cls, struct device *parent,
-				    dev_t devt, void *drvdata,
-				    const char *fmt, ...);
-void device_destroy(struct class *cls, dev_t devt);                    
-struct class* class_create(struct module *owner,const char *name);
-void class_destroy(struct class *cls);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> device *<span class="title function_">device_create</span><span class="params">(<span class="keyword">struct</span> class *cls, <span class="keyword">struct</span> device *parent,</span></span><br><span class="line"><span class="params">				    <span class="type">dev_t</span> devt, <span class="type">void</span> *drvdata,</span></span><br><span class="line"><span class="params">				    <span class="type">const</span> <span class="type">char</span> *fmt, ...)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">device_destroy</span><span class="params">(<span class="keyword">struct</span> class *cls, <span class="type">dev_t</span> devt)</span>;                    </span><br><span class="line"><span class="keyword">struct</span> class* <span class="title function_">class_create</span><span class="params">(<span class="keyword">struct</span> module *owner,<span class="type">const</span> <span class="type">char</span> *name)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">class_destroy</span><span class="params">(<span class="keyword">struct</span> class *cls)</span>;</span><br></pre></td></tr></table></figure>
 <p>下面一个实例展示多个同类字符设备驱动的编写：</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">#include&lt;linux&#x2F;init.h&gt;
-#include&lt;linux&#x2F;module.h&gt;
-#include&lt;linux&#x2F;moduleparam.h&gt;
-#include&lt;linux&#x2F;stat.h&gt;
-
-#include &lt;linux&#x2F;device.h&gt;
-#include &lt;linux&#x2F;fs.h&gt;
-#include &lt;linux&#x2F;kdev_t.h&gt;
-#include &lt;linux&#x2F;cdev.h&gt;
-
-#include &lt;linux&#x2F;slab.h&gt;
-
-#define DEVICE_NAME &quot;myCharDevice&quot;
-#define DEVICE_NUM  5
-#define MAJOR_  0
-#define MINOR_  0
-
-static int char_major &#x3D; MAJOR_;
-static int char_minor &#x3D; MINOR_;
-static int charId;
-module_param(char_major,int,S_IRUSR);
-module_param(char_minor,int,S_IRUSR);
-
-MODULE_LICENSE(&quot;Dual BSD&#x2F;GPL&quot;);
-MODULE_AUTHOR(&quot;Sycamore&quot;);
-MODULE_DESCRIPTION(&quot;This is a char driver test!\n&quot;);
-
-struct charDevice 
-&#123;
-    char name[10];
-    int data;
-    struct cdev dev;
-&#125;;
-struct charDevice *myCharDevice ;
-struct class *myClass;
-struct file_operations fileOps &#x3D; 
-&#123;
-    &#x2F;&#x2F;一些操作函数并没有实现
-  .owner &#x3D; THIS_MODULE,  
-&#125;;
-
-static int __init char_init(void)
-&#123;
-    int ret,i;
-    &#x2F;&#x2F;申请设备号
-    if(char_major)&#x2F;&#x2F;手动分配设备号
-    &#123;
-        charId &#x3D; MKDEV(char_major,char_minor);
-        ret &#x3D; register_chrdev_region(charId,DEVICE_NUM,DEVICE_NAME);
-        
-        if(ret &lt; 0) 
-        &#123;
-            printk(KERN_EMERG &quot;register_chrdev_region failed!!\n&quot;);
-            goto fail;
-        &#125;
-    &#125;
-    else&#x2F;&#x2F;自动分配设备号
-    &#123;
-        printk(KERN_EMERG &quot;alloc_chrdev_region works!\n&quot;);
-        ret &#x3D; alloc_chrdev_region(&amp;charId,0,DEVICE_NUM,DEVICE_NAME);
-        if(ret &lt; 0) 
-        &#123;
-            printk(KERN_EMERG &quot;alloc_chrdev_region failed!!\n&quot;);
-            goto fail;
-        &#125;
-        char_major &#x3D; MAJOR(charId);
-        char_minor &#x3D; MINOR(charId);
-    &#125;
-    printk(KERN_EMERG &quot;Success!! Major is: %d ,MINOR is %d.\n&quot;,char_major,char_minor);
-    
-    &#x2F;&#x2F;申请字符设备类
-    myClass &#x3D; class_create(THIS_MODULE,DEVICE_NAME);
-    myCharDevice &#x3D; kmalloc(DEVICE_NUM * sizeof(struct charDevice) , GFP_KERNEL);
-    if(!myCharDevice)
-    &#123;
-        printk(KERN_EMERG &quot;Kmailloc failed!!\n&quot;);
-        ret &#x3D; -ENOMEM;
-        goto fail;
-    &#125;
-    memset(myCharDevice,0,(DEVICE_NUM * sizeof(struct charDevice)));
-    &#x2F;&#x2F;依次注册每个字符
-    for(i &#x3D; 0; i &lt; DEVICE_NUM; i++)
-    &#123;
-        cdev_init(&amp;(myCharDevice[i].dev),&amp;fileOps);
-        myCharDevice[i].dev.owner &#x3D; THIS_MODULE;
-        ret &#x3D; cdev_add(&amp;(myCharDevice[i].dev),MKDEV(char_major,(char_minor + i)),1);
-        if(ret) 
-        &#123;
-            printk(KERN_EMERG &quot;Cdev_add failed!!\n&quot;);
-            break;
-            goto fail;
-        &#125;
-        device_create(myClass,NULL,MKDEV(char_major,char_minor + i),NULL,DEVICE_NAME&quot;%d&quot;,i);
-    &#125;
-    
-    return 0;
-fail:
-
-    unregister_chrdev_region(charId,DEVICE_NUM);
-    return ret;   
-&#125;
-
-static void __exit char_exit(void)
-&#123;
-    int i ;
-    for(i &#x3D; 0; i &lt; DEVICE_NUM; i++)
-    &#123;
-        cdev_del(&amp;(myCharDevice[i].dev));
-        device_destroy(myClass,MKDEV(char_major,(char_minor + i)));
-    &#125;
-    class_destroy(myClass);
-    kfree(myCharDevice);
-    unregister_chrdev_region(charId,DEVICE_NUM);
-
-&#125;
-
-module_init(char_init);
-module_exit(char_exit);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;linux/init.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;linux/module.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;linux/moduleparam.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;linux/stat.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/device.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/fs.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/kdev_t.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/cdev.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/slab.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEVICE_NAME <span class="string">&quot;myCharDevice&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEVICE_NUM  5</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAJOR_  0</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MINOR_  0</span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> char_major = MAJOR_;</span><br><span class="line"><span class="type">static</span> <span class="type">int</span> char_minor = MINOR_;</span><br><span class="line"><span class="type">static</span> <span class="type">int</span> charId;</span><br><span class="line">module_param(char_major,<span class="type">int</span>,S_IRUSR);</span><br><span class="line">module_param(char_minor,<span class="type">int</span>,S_IRUSR);</span><br><span class="line"></span><br><span class="line">MODULE_LICENSE(<span class="string">&quot;Dual BSD/GPL&quot;</span>);</span><br><span class="line">MODULE_AUTHOR(<span class="string">&quot;Sycamore&quot;</span>);</span><br><span class="line">MODULE_DESCRIPTION(<span class="string">&quot;This is a char driver test!\n&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">charDevice</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">char</span> name[<span class="number">10</span>];</span><br><span class="line">    <span class="type">int</span> data;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">cdev</span> <span class="title">dev</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">charDevice</span> *<span class="title">myCharDevice</span> ;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="keyword">class</span> *<span class="title">myClass</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">file_operations</span> <span class="title">fileOps</span> =</span> </span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//一些操作函数并没有实现</span></span><br><span class="line">  .owner = THIS_MODULE,  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> __init <span class="title function_">char_init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> ret,i;</span><br><span class="line">    <span class="comment">//申请设备号</span></span><br><span class="line">    <span class="keyword">if</span>(char_major)<span class="comment">//手动分配设备号</span></span><br><span class="line">    &#123;</span><br><span class="line">        charId = MKDEV(char_major,char_minor);</span><br><span class="line">        ret = register_chrdev_region(charId,DEVICE_NUM,DEVICE_NAME);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(ret &lt; <span class="number">0</span>) </span><br><span class="line">        &#123;</span><br><span class="line">            printk(KERN_EMERG <span class="string">&quot;register_chrdev_region failed!!\n&quot;</span>);</span><br><span class="line">            <span class="keyword">goto</span> fail;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span><span class="comment">//自动分配设备号</span></span><br><span class="line">    &#123;</span><br><span class="line">        printk(KERN_EMERG <span class="string">&quot;alloc_chrdev_region works!\n&quot;</span>);</span><br><span class="line">        ret = alloc_chrdev_region(&amp;charId,<span class="number">0</span>,DEVICE_NUM,DEVICE_NAME);</span><br><span class="line">        <span class="keyword">if</span>(ret &lt; <span class="number">0</span>) </span><br><span class="line">        &#123;</span><br><span class="line">            printk(KERN_EMERG <span class="string">&quot;alloc_chrdev_region failed!!\n&quot;</span>);</span><br><span class="line">            <span class="keyword">goto</span> fail;</span><br><span class="line">        &#125;</span><br><span class="line">        char_major = MAJOR(charId);</span><br><span class="line">        char_minor = MINOR(charId);</span><br><span class="line">    &#125;</span><br><span class="line">    printk(KERN_EMERG <span class="string">&quot;Success!! Major is: %d ,MINOR is %d.\n&quot;</span>,char_major,char_minor);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//申请字符设备类</span></span><br><span class="line">    myClass = class_create(THIS_MODULE,DEVICE_NAME);</span><br><span class="line">    myCharDevice = kmalloc(DEVICE_NUM * <span class="keyword">sizeof</span>(<span class="keyword">struct</span> charDevice) , GFP_KERNEL);</span><br><span class="line">    <span class="keyword">if</span>(!myCharDevice)</span><br><span class="line">    &#123;</span><br><span class="line">        printk(KERN_EMERG <span class="string">&quot;Kmailloc failed!!\n&quot;</span>);</span><br><span class="line">        ret = -ENOMEM;</span><br><span class="line">        <span class="keyword">goto</span> fail;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">memset</span>(myCharDevice,<span class="number">0</span>,(DEVICE_NUM * <span class="keyword">sizeof</span>(<span class="keyword">struct</span> charDevice)));</span><br><span class="line">    <span class="comment">//依次注册每个字符</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; DEVICE_NUM; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cdev_init(&amp;(myCharDevice[i].dev),&amp;fileOps);</span><br><span class="line">        myCharDevice[i].dev.owner = THIS_MODULE;</span><br><span class="line">        ret = cdev_add(&amp;(myCharDevice[i].dev),MKDEV(char_major,(char_minor + i)),<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span>(ret) </span><br><span class="line">        &#123;</span><br><span class="line">            printk(KERN_EMERG <span class="string">&quot;Cdev_add failed!!\n&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">goto</span> fail;</span><br><span class="line">        &#125;</span><br><span class="line">        device_create(myClass,<span class="literal">NULL</span>,MKDEV(char_major,char_minor + i),<span class="literal">NULL</span>,DEVICE_NAME<span class="string">&quot;%d&quot;</span>,i);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">fail:</span><br><span class="line"></span><br><span class="line">    unregister_chrdev_region(charId,DEVICE_NUM);</span><br><span class="line">    <span class="keyword">return</span> ret;   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> __exit <span class="title function_">char_exit</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i ;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; DEVICE_NUM; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cdev_del(&amp;(myCharDevice[i].dev));</span><br><span class="line">        device_destroy(myClass,MKDEV(char_major,(char_minor + i)));</span><br><span class="line">    &#125;</span><br><span class="line">    class_destroy(myClass);</span><br><span class="line">    kfree(myCharDevice);</span><br><span class="line">    unregister_chrdev_region(charId,DEVICE_NUM);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(char_init);</span><br><span class="line">module_exit(char_exit);</span><br></pre></td></tr></table></figure>
 <h2 id="杂项设备驱动"><a class="markdownIt-Anchor" href="#杂项设备驱动"></a> 杂项设备驱动</h2>
 <p>上面所说杂项设备是一种特殊的字符设备，这里就可以得到证明了。说它特殊主要是因为它的主设备号已经固定了（10），我们不需要再费心费力为它分配设备号了。因此杂项设备的使用十分方便，操作也十分简单。<br />
 描述杂项设备的结构体以及主要的函数：<code>include/linux/miscdevice.h</code></p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">struct miscdevice  
-&#123;
-	int minor;
-	const char *name;
-	const struct file_operations *fops;
-	struct list_head list;
-	struct device *parent;
-	struct device *this_device;
-	const char *nodename;
-	mode_t mode;
-&#125;;
-
-extern int misc_register(struct miscdevice * misc);
-extern int misc_deregister(struct miscdevice *misc);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">miscdevice</span>  </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="type">int</span> minor;</span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *name;</span><br><span class="line">	<span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">file_operations</span> *<span class="title">fops</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">list</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">device</span> *<span class="title">parent</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">device</span> *<span class="title">this_device</span>;</span></span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> *nodename;</span><br><span class="line">	<span class="type">mode_t</span> mode;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="type">int</span> <span class="title function_">misc_register</span><span class="params">(<span class="keyword">struct</span> miscdevice * misc)</span>;</span><br><span class="line"><span class="keyword">extern</span> <span class="type">int</span> <span class="title function_">misc_deregister</span><span class="params">(<span class="keyword">struct</span> miscdevice *misc)</span>;</span><br></pre></td></tr></table></figure>
 <p>在模块中定义好<code>struct miscdevice</code>和<code>struct file_operations</code>变量并进行初始化，然后将注册和卸载函数分别放在入口函数<code>init</code>和出口函数<code>exit</code>中就可以了。</p>
 <h1 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h1>
 <p id="div-border-top-red">显而易见，杂项设备驱动的编写相比于标准字符驱动来说是十分方便的。既然如此，我们为何不尝试使用呢</p>

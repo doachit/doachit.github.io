@@ -282,98 +282,10 @@
 <strong>2.二叉树的前根序遍历的数组，包括开始和结尾元素的下标</strong><br />
 <strong>3.二叉树的中根序遍历的数组，包括开始和结尾元素的下标</strong><br />
 二叉树节点的结构体描述：</p>
-<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">typedef struct node &#123;
-  int  data;
-  struct node *lchild;
-  struct node *rchild;
-&#125;Node;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">&#x2F;* 
-    PreS       先根序序列的第一个元素下标 
-    PreE       先根序序列的最后一个元素下标 
-    InS        中根序序列的第一个元素下标  
-    InE        先根序序列的最后一个元素下标   
-    PreArray   先根序序列数组 
-    InArray    中根序序列数组 
-*&#x2F;  
-PreInCreateTree(Node *&amp;T,int PreS ,int PreE ,int InS ,int InE)
-&#123;  
-
-    int RootIndex;  
-    &#x2F;&#x2F;先序第一个字符  
-    T &#x3D; (Node*)malloc(sizeof(Node));  
-
-    T-&gt;data &#x3D; PreArray[PreS];  
-
-    &#x2F;&#x2F;寻找该结点在中序序列中的位置  
-    for(int i &#x3D; InS;i &lt;&#x3D; InE;i++)&#123;  
-        if(T-&gt;data &#x3D;&#x3D; InArray[i])&#123;  
-            RootIndex &#x3D; i;  
-            break;  
-        &#125;  
-    &#125;  
-    int leftLen &#x3D; RootIndex - InS - 1;
-    int rightLen &#x3D; RootIndex;
-    &#x2F;&#x2F;根结点的左子树不为空  
-    if(RootIndex !&#x3D; InS)&#123;  
-        &#x2F;&#x2F;以根节点的左结点为根建树  !!!特别注意传递的数组的开始和结尾的下标，别问我为什么提示（我哭一会先）
-        PreInCreateTree(T-&gt;lchild,PreS+1,(RootIndex-InS)+PreS-1,InS,RootIndex-1);  
-    &#125;  
-    else&#123;  
-        T-&gt;lchild &#x3D; NULL;  
-    &#125;  
-    &#x2F;&#x2F;根结点的右子树不为空  
-    if(RootIndex !&#x3D; InE)&#123;  
-        &#x2F;&#x2F;以根节点的右结点为根建树  !!!特别注意传递的数组的开始和结尾的下标
-        PreInCreateTree(T-&gt;rchild,PreS+1+(RootIndex-InS),PreE,RootIndex+1,InE);  
-    &#125;  
-    else&#123;  
-        T-&gt;rchild &#x3D; NULL;  
-    &#125;  
-&#125; 
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">node</span> &#123;</span><br><span class="line">  <span class="type">int</span>  data;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">node</span> *lchild;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">node</span> *rchild;</span><br><span class="line">&#125;Node;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">    PreS       先根序序列的第一个元素下标 </span></span><br><span class="line"><span class="comment">    PreE       先根序序列的最后一个元素下标 </span></span><br><span class="line"><span class="comment">    InS        中根序序列的第一个元素下标  </span></span><br><span class="line"><span class="comment">    InE        先根序序列的最后一个元素下标   </span></span><br><span class="line"><span class="comment">    PreArray   先根序序列数组 </span></span><br><span class="line"><span class="comment">    InArray    中根序序列数组 </span></span><br><span class="line"><span class="comment">*/</span>  </span><br><span class="line"><span class="built_in">PreInCreateTree</span>(Node *&amp;T,<span class="type">int</span> PreS ,<span class="type">int</span> PreE ,<span class="type">int</span> InS ,<span class="type">int</span> InE)</span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> RootIndex;  </span><br><span class="line">    <span class="comment">//先序第一个字符  </span></span><br><span class="line">    T = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));  </span><br><span class="line"></span><br><span class="line">    T-&gt;data = PreArray[PreS];  </span><br><span class="line"></span><br><span class="line">    <span class="comment">//寻找该结点在中序序列中的位置  </span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = InS;i &lt;= InE;i++)&#123;  </span><br><span class="line">        <span class="keyword">if</span>(T-&gt;data == InArray[i])&#123;  </span><br><span class="line">            RootIndex = i;  </span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="type">int</span> leftLen = RootIndex - InS - <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> rightLen = RootIndex;</span><br><span class="line">    <span class="comment">//根结点的左子树不为空  </span></span><br><span class="line">    <span class="keyword">if</span>(RootIndex != InS)&#123;  </span><br><span class="line">        <span class="comment">//以根节点的左结点为根建树  !!!特别注意传递的数组的开始和结尾的下标，别问我为什么提示（我哭一会先）</span></span><br><span class="line">        <span class="built_in">PreInCreateTree</span>(T-&gt;lchild,PreS+<span class="number">1</span>,(RootIndex-InS)+PreS<span class="number">-1</span>,InS,RootIndex<span class="number">-1</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">else</span>&#123;  </span><br><span class="line">        T-&gt;lchild = <span class="literal">NULL</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="comment">//根结点的右子树不为空  </span></span><br><span class="line">    <span class="keyword">if</span>(RootIndex != InE)&#123;  </span><br><span class="line">        <span class="comment">//以根节点的右结点为根建树  !!!特别注意传递的数组的开始和结尾的下标</span></span><br><span class="line">        <span class="built_in">PreInCreateTree</span>(T-&gt;rchild,PreS+<span class="number">1</span>+(RootIndex-InS),PreE,RootIndex+<span class="number">1</span>,InE);  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">else</span>&#123;  </span><br><span class="line">        T-&gt;rchild = <span class="literal">NULL</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h2 id="中后根序遍历构建二叉树"><a class="markdownIt-Anchor" href="#中后根序遍历构建二叉树"></a> 中后根序遍历构建二叉树</h2>
-<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">&#x2F;* 
-    MidS        中根序序列的第一个元素下标 
-    MidE        中根序序列的最后一个元素下标 
-    AftS        后根序序列的第一个元素下标  
-    AftE        后根序序列的最后一个元素下标   
-    MidArray    中根序序列数组 
-    AftArray    后根序序列数组 
-*&#x2F;  
-MidAfterCreateTree(Node *&amp;T,int MidS ,int MidE ,int AftS ,int AftE)
-&#123; 
-	int RootIndex &#x3D; 0;
-	T &#x3D; (Node*)malloc(sizeof(Node));
-	T-&gt;data &#x3D; AftArray[AftE];
-	for(int i &#x3D; MidS ; i &lt;&#x3D; MidE; i++)
-	&#123;
-		if(T-&gt;data &#x3D;&#x3D; MidArray[i])
-		&#123;
-			RootIndex &#x3D; i;
-			break;
-		&#125;
-	&#125;
-	
-	if(RootIndex !&#x3D; MidS)
-	&#123;
-		MidAfterCreateTree(T-&gt;lchild,MidS,(RootIndex -1),AftS,(RootIndex - 1-MidS + AftS));
-	&#125; 
-	else
-	&#123;
-		T-&gt;lchild &#x3D; NULL;
-	&#125;
-		
-		
-	if(RootIndex !&#x3D; MidE)
-	&#123;
-		MidAfterCreateTree(T-&gt;rchild,(RootIndex + 1),MidE,(AftE -MidE + RootIndex),(AftE - 1));
-	&#125;
-	else
-	&#123;
-		T-&gt;rchild &#x3D; NULL;
-	&#125;
-		
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">    MidS        中根序序列的第一个元素下标 </span></span><br><span class="line"><span class="comment">    MidE        中根序序列的最后一个元素下标 </span></span><br><span class="line"><span class="comment">    AftS        后根序序列的第一个元素下标  </span></span><br><span class="line"><span class="comment">    AftE        后根序序列的最后一个元素下标   </span></span><br><span class="line"><span class="comment">    MidArray    中根序序列数组 </span></span><br><span class="line"><span class="comment">    AftArray    后根序序列数组 </span></span><br><span class="line"><span class="comment">*/</span>  </span><br><span class="line"><span class="built_in">MidAfterCreateTree</span>(Node *&amp;T,<span class="type">int</span> MidS ,<span class="type">int</span> MidE ,<span class="type">int</span> AftS ,<span class="type">int</span> AftE)</span><br><span class="line">&#123; </span><br><span class="line">	<span class="type">int</span> RootIndex = <span class="number">0</span>;</span><br><span class="line">	T = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">	T-&gt;data = AftArray[AftE];</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = MidS ; i &lt;= MidE; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(T-&gt;data == MidArray[i])</span><br><span class="line">		&#123;</span><br><span class="line">			RootIndex = i;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(RootIndex != MidS)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">MidAfterCreateTree</span>(T-&gt;lchild,MidS,(RootIndex <span class="number">-1</span>),AftS,(RootIndex - <span class="number">1</span>-MidS + AftS));</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		T-&gt;lchild = <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">if</span>(RootIndex != MidE)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">MidAfterCreateTree</span>(T-&gt;rchild,(RootIndex + <span class="number">1</span>),MidE,(AftE -MidE + RootIndex),(AftE - <span class="number">1</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		T-&gt;rchild = <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>参考链接：<br />
 <a target="_blank" rel="noopener" href="http://blog.csdn.net/SunnyYoona/article/details/24903815">1</a></p>
 <blockquote class="blockquote-center">完</blockquote>

@@ -269,211 +269,34 @@
 <p>总线，设备和驱动是linux驱动所涉及到的三方。设备和驱动都挂载在总线上，并且由总线进行管理。设备和驱动对应，每一个设备都有对应的驱动，驱动也是如此。不管哪一方先挂载到总线上，总线都会去遍历另一方来完成两者的匹配（<code>match()</code>），匹配成功后便会调用驱动的<code>probe()</code>方法来完成设备的初始化等操作。</p>
 <span id="more"></span>
 <h2 id="三者之间的代码描述"><a class="markdownIt-Anchor" href="#三者之间的代码描述"></a> 三者之间的代码描述：</h2>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">bus
-------------------------------
-struct klist klist_devices;     &#x2F;&#x2F;记录bus上挂载的devices
-struct klist klist_drivers;     &#x2F;&#x2F;记录bus上挂载的drivers
-
-device
-------------------------------
-struct bus_type	*bus;           &#x2F;&#x2F;记录当前device挂载的总线
-struct device_driver *driver;	&#x2F;&#x2F;记录当前device绑定的driver
-
-
-device_driver
-------------------------------
-struct bus_type		*bus;       &#x2F;&#x2F;记录当前driver挂载的总线
-struct klist klist_devices;     &#x2F;&#x2F;记录当前driver支持的设备，一个driver可以支持多个不同的设备。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">bus</span><br><span class="line">------------------------------</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">klist</span> <span class="title">klist_devices</span>;</span>     <span class="comment">//记录bus上挂载的devices</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">klist</span> <span class="title">klist_drivers</span>;</span>     <span class="comment">//记录bus上挂载的drivers</span></span><br><span class="line"></span><br><span class="line">device</span><br><span class="line">------------------------------</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">bus_type</span>	*<span class="title">bus</span>;</span>           <span class="comment">//记录当前device挂载的总线</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">device_driver</span> *<span class="title">driver</span>;</span>	<span class="comment">//记录当前device绑定的driver</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">device_driver</span><br><span class="line">------------------------------</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">bus_type</span>		*<span class="title">bus</span>;</span>       <span class="comment">//记录当前driver挂载的总线</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">klist</span> <span class="title">klist_devices</span>;</span>     <span class="comment">//记录当前driver支持的设备，一个driver可以支持多个不同的设备。</span></span><br></pre></td></tr></table></figure>
 <h1 id="platfrom平台驱动"><a class="markdownIt-Anchor" href="#platfrom平台驱动"></a> platfrom平台驱动</h1>
 <p>前面所说的bus_type其实是所有总线的一种抽象，因此不管是实体总线比如I2C,SPI，亦或是虚拟总线platform都是由bus_type衍生而来。下面就来探究一下platform总线。</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">struct bus_type platform_bus_type &#x3D; 
-&#123;	
-	.name		&#x3D; &quot;platform&quot;,
-	.dev_attrs	&#x3D; platform_dev_attrs,
-	.match		&#x3D; platform_match,
-	.uevent		&#x3D; platform_uevent,
-	.pm		&#x3D; &amp;platform_dev_pm_ops,
-&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">bus_type</span> <span class="title">platform_bus_type</span> =</span> </span><br><span class="line">&#123;	</span><br><span class="line">	.name		= <span class="string">&quot;platform&quot;</span>,</span><br><span class="line">	.dev_attrs	= platform_dev_attrs,</span><br><span class="line">	.match		= platform_match,</span><br><span class="line">	.uevent		= platform_uevent,</span><br><span class="line">	.pm		= &amp;platform_dev_pm_ops,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>platform总线的注册流程：</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">start_kernel(void)——&gt;rest_init()——&gt;kernel_init()——&gt;do_basic_setup()
-——&gt;driver_init(void)——&gt;platform_bus_init(void)——&gt;device_register()——&gt;bus_register()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">start_kernel(<span class="type">void</span>)——&gt;rest_init()——&gt;kernel_init()——&gt;do_basic_setup()</span><br><span class="line">——&gt;driver_init(<span class="type">void</span>)——&gt;platform_bus_init(<span class="type">void</span>)——&gt;device_register()——&gt;bus_register()</span><br></pre></td></tr></table></figure>
 <p>linux中从始至终都秉承着一切皆文件的思想。对于总线来讲也是如此，无论是实体总线或者是虚拟总线都会被当作设备来进行注册。从这个流程来看，platform的注册要先注册一个设备，然后在注册总线，总线是以设备的形式存在的。</p>
 <h2 id="platform_device"><a class="markdownIt-Anchor" href="#platform_device"></a> platform_device</h2>
 <p>platform_device其实是对上面的device结构体的一种封装，其核心还是device。platform_device_register函数是用来注册平台设备的，具体调用流程如下所示：</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">platform_device_register()
-&#123;
-    platform_device_add()
-    &#123;
-        ...
-        device_add()
-        &#123;
-            ...
-            bus_add_device() &#x2F;&#x2F;添加设备到bus上
-            &#123;
-                ...
-                klist_add_tail(&amp;dev-&gt;p-&gt;knode_bus, &amp;bus-&gt;p-&gt;klist_devices);&#x2F;&#x2F;添加设备到klist中去
-                ...
-            &#125;
-            
-            ...
-            
-            bus_probe_device()  &#x2F;&#x2F;设备添加成功之后进行匹配驱动
-            &#123;
-                device_attach()
-                &#123;
-                    ...
-                    &#x2F;&#x2F;遍历来寻找驱动，并与之绑定
-                    bus_for_each_drv(dev-&gt;bus, NULL, dev, __device_attach);
-                    ...
-                &#125;
-            &#125;
-            ...
-        &#125;
-        ...
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">platform_device_register()</span><br><span class="line">&#123;</span><br><span class="line">    platform_device_add()</span><br><span class="line">    &#123;</span><br><span class="line">        ...</span><br><span class="line">        device_add()</span><br><span class="line">        &#123;</span><br><span class="line">            ...</span><br><span class="line">            bus_add_device() <span class="comment">//添加设备到bus上</span></span><br><span class="line">            &#123;</span><br><span class="line">                ...</span><br><span class="line">                klist_add_tail(&amp;dev-&gt;p-&gt;knode_bus, &amp;bus-&gt;p-&gt;klist_devices);<span class="comment">//添加设备到klist中去</span></span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            ...</span><br><span class="line">            </span><br><span class="line">            bus_probe_device()  <span class="comment">//设备添加成功之后进行匹配驱动</span></span><br><span class="line">            &#123;</span><br><span class="line">                device_attach()</span><br><span class="line">                &#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="comment">//遍历来寻找驱动，并与之绑定</span></span><br><span class="line">                    bus_for_each_drv(dev-&gt;bus, <span class="literal">NULL</span>, dev, __device_attach);</span><br><span class="line">                    ...</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>通过platform_device_register来注册平台设备，然后会调用platform_device_add，紧接着调用device_add。在device_add中会涉及到一些核心的部分：设备通过bus_add_device添加到总线上，添加成功之后就会通过bus_probe_device来探测driver，最后通过device_attach函数实现设备和驱动的绑定。</p>
 <h2 id="platform_driver"><a class="markdownIt-Anchor" href="#platform_driver"></a> platform_driver</h2>
 <p>和platform_device一样，platform_driver也是device_driver的封装，platform_driver_register是用来注册驱动的。</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">struct platform_driver &#123;
-	int (*probe)(struct platform_device *);
-	int (*remove)(struct platform_device *);
-	void (*shutdown)(struct platform_device *);
-	int (*suspend)(struct platform_device *, pm_message_t state);
-	int (*resume)(struct platform_device *);
-	struct device_driver driver;
-            &#x2F;&#x2F;-------------------------------------------------
-            &#x2F;&#x2F;device_driver结构体中的函数
-                int (*probe) (struct device *dev);
-                int (*remove) (struct device *dev);
-                void (*shutdown) (struct device *dev);
-                int (*suspend) (struct device *dev, pm_message_t state);
-                int (*resume) (struct device *dev);
-            &#x2F;&#x2F;-------------------------------------------------
-	const struct platform_device_id *id_table;
-&#125;;
-
-int platform_driver_register(struct platform_driver *drv)
-&#123;
-	drv-&gt;driver.bus &#x3D; &amp;platform_bus_type;
-	if (drv-&gt;probe)
-		drv-&gt;driver.probe &#x3D; platform_drv_probe;
-	if (drv-&gt;remove)
-		drv-&gt;driver.remove &#x3D; platform_drv_remove;
-	if (drv-&gt;shutdown)
-		drv-&gt;driver.shutdown &#x3D; platform_drv_shutdown;
-
-	return driver_register(&amp;drv-&gt;driver);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">platform_driver</span> &#123;</span></span><br><span class="line">	<span class="type">int</span> (*probe)(<span class="keyword">struct</span> platform_device *);</span><br><span class="line">	<span class="type">int</span> (*remove)(<span class="keyword">struct</span> platform_device *);</span><br><span class="line">	<span class="type">void</span> (*shutdown)(<span class="keyword">struct</span> platform_device *);</span><br><span class="line">	<span class="type">int</span> (*suspend)(<span class="keyword">struct</span> platform_device *, <span class="type">pm_message_t</span> state);</span><br><span class="line">	<span class="type">int</span> (*resume)(<span class="keyword">struct</span> platform_device *);</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">device_driver</span> <span class="title">driver</span>;</span></span><br><span class="line">            <span class="comment">//-------------------------------------------------</span></span><br><span class="line">            <span class="comment">//device_driver结构体中的函数</span></span><br><span class="line">                <span class="type">int</span> (*probe) (<span class="keyword">struct</span> device *dev);</span><br><span class="line">                <span class="type">int</span> (*remove) (<span class="keyword">struct</span> device *dev);</span><br><span class="line">                <span class="type">void</span> (*shutdown) (<span class="keyword">struct</span> device *dev);</span><br><span class="line">                <span class="type">int</span> (*suspend) (<span class="keyword">struct</span> device *dev, <span class="type">pm_message_t</span> state);</span><br><span class="line">                <span class="type">int</span> (*resume) (<span class="keyword">struct</span> device *dev);</span><br><span class="line">            <span class="comment">//-------------------------------------------------</span></span><br><span class="line">	<span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">platform_device_id</span> *<span class="title">id_table</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">platform_driver_register</span><span class="params">(<span class="keyword">struct</span> platform_driver *drv)</span></span><br><span class="line">&#123;</span><br><span class="line">	drv-&gt;driver.bus = &amp;platform_bus_type;</span><br><span class="line">	<span class="keyword">if</span> (drv-&gt;probe)</span><br><span class="line">		drv-&gt;driver.probe = platform_drv_probe;</span><br><span class="line">	<span class="keyword">if</span> (drv-&gt;remove)</span><br><span class="line">		drv-&gt;driver.remove = platform_drv_remove;</span><br><span class="line">	<span class="keyword">if</span> (drv-&gt;shutdown)</span><br><span class="line">		drv-&gt;driver.shutdown = platform_drv_shutdown;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> driver_register(&amp;drv-&gt;driver);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看出device_driver中的几个函数和platform_driver中的几个函数是一一对应的。driver_register函数首先就把两者之间的函数进行一一映射，具体调用如下所示：</p>
-<pre class="line-numbers language-none"><code class="language-none">driver_register()
-&#123;
-    ...
-    bus_add_driver()    &#x2F;&#x2F;将驱动添加到总线上
-    &#123;
-        ...
-        driver_attach()
-        &#123;
-            bus_for_each_dev(drv-&gt;bus, NULL, drv, __driver_attach);&#x2F;&#x2F;遍历来寻找设备,并与之绑定
-        &#125;
-        klist_add_tail();   &#x2F;&#x2F;添加驱动到klist中去
-        ...
-    &#125;
-    ...
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">driver_register()</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">    bus_add_driver()    //将驱动添加到总线上</span><br><span class="line">    &#123;</span><br><span class="line">        ...</span><br><span class="line">        driver_attach()</span><br><span class="line">        &#123;</span><br><span class="line">            bus_for_each_dev(drv-&gt;bus, NULL, drv, __driver_attach);//遍历来寻找设备,并与之绑定</span><br><span class="line">        &#125;</span><br><span class="line">        klist_add_tail();   //添加驱动到klist中去</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="match与probe"><a class="markdownIt-Anchor" href="#match与probe"></a> match与probe</h1>
 <p>前面我们也说过，设备与驱动匹配<code>match()</code>成功之后就会调用<code>probe()</code>函数来完成设备的初始化等操作，那么整个流程是什么样的呢？<br />
 首先我们看一下bus和platform的结构体</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">struct bus_type &#123;
-	const char		*name;
-	struct bus_attribute	*bus_attrs;
-	struct device_attribute	*dev_attrs;
-	struct driver_attribute	*drv_attrs;
-
-	int (*match)(struct device *dev, struct device_driver *drv);
-	int (*uevent)(struct device *dev, struct kobj_uevent_env *env);
-	int (*probe)(struct device *dev);
-	int (*remove)(struct device *dev);
-	void (*shutdown)(struct device *dev);
-
-	int (*suspend)(struct device *dev, pm_message_t state);
-	int (*resume)(struct device *dev);
-
-	const struct dev_pm_ops *pm;
-
-	struct subsys_private *p;
-&#125;;
-
-struct bus_type platform_bus_type &#x3D; &#123;
-	.name		&#x3D; &quot;platform&quot;,
-	.dev_attrs	&#x3D; platform_dev_attrs,
-	.match		&#x3D; platform_match,
-	.uevent		&#x3D; platform_uevent,
-	.pm		&#x3D; &amp;platform_dev_pm_ops,
-&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">bus_type</span> &#123;</span></span><br><span class="line">	<span class="type">const</span> <span class="type">char</span>		*name;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">bus_attribute</span>	*<span class="title">bus_attrs</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">device_attribute</span>	*<span class="title">dev_attrs</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">driver_attribute</span>	*<span class="title">drv_attrs</span>;</span></span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> (*match)(<span class="keyword">struct</span> device *dev, <span class="keyword">struct</span> device_driver *drv);</span><br><span class="line">	<span class="type">int</span> (*uevent)(<span class="keyword">struct</span> device *dev, <span class="keyword">struct</span> kobj_uevent_env *env);</span><br><span class="line">	<span class="type">int</span> (*probe)(<span class="keyword">struct</span> device *dev);</span><br><span class="line">	<span class="type">int</span> (*remove)(<span class="keyword">struct</span> device *dev);</span><br><span class="line">	<span class="type">void</span> (*shutdown)(<span class="keyword">struct</span> device *dev);</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> (*suspend)(<span class="keyword">struct</span> device *dev, <span class="type">pm_message_t</span> state);</span><br><span class="line">	<span class="type">int</span> (*resume)(<span class="keyword">struct</span> device *dev);</span><br><span class="line"></span><br><span class="line">	<span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">dev_pm_ops</span> *<span class="title">pm</span>;</span></span><br><span class="line"></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">subsys_private</span> *<span class="title">p</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">bus_type</span> <span class="title">platform_bus_type</span> =</span> &#123;</span><br><span class="line">	.name		= <span class="string">&quot;platform&quot;</span>,</span><br><span class="line">	.dev_attrs	= platform_dev_attrs,</span><br><span class="line">	.match		= platform_match,</span><br><span class="line">	.uevent		= platform_uevent,</span><br><span class="line">	.pm		= &amp;platform_dev_pm_ops,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>查看前面的driver结构体和bus结构体我们不难发现bus中存在match和probe函数，driver中也存在一个probe函数。具体如何执行我们下面接着看就明白了。<br />
 我们都知道对于设备和驱动来讲，不管先添加哪一方，总线都回去遍历另一方来实现两者的匹配操作。在上面的添加设备和驱动的流程中我们也发现了上述的匹配操作主要是通过<code>__device_attach</code>和<code>__driver_attach</code>来进行的，下面来具体看一下这两个函数。</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">&#x2F;&#x2F;遍历驱动来绑定设备的函数
-static int __device_attach(struct device_driver *drv, void *data)
-&#123;
-	struct device *dev &#x3D; data;
-
-	if (!driver_match_device(drv, dev))
-		return 0;
-
-	return driver_probe_device(drv, dev);
-&#125;
-
-&#x2F;&#x2F;遍历设备来绑定驱动的函数
-static int __driver_attach(struct device *dev, void *data)
-&#123;
-	struct device_driver *drv &#x3D; data;
-
-	if (!driver_match_device(drv, dev))
-		return 0;
-
-	if (dev-&gt;parent)	&#x2F;* Needed for USB *&#x2F;
-		device_lock(dev-&gt;parent);
-	device_lock(dev);
-	if (!dev-&gt;driver)
-		driver_probe_device(drv, dev);
-	device_unlock(dev);
-	if (dev-&gt;parent)
-		device_unlock(dev-&gt;parent);
-
-	return 0;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//遍历驱动来绑定设备的函数</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> __device_attach(<span class="keyword">struct</span> device_driver *drv, <span class="type">void</span> *data)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">device</span> *<span class="title">dev</span> =</span> data;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!driver_match_device(drv, dev))</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> driver_probe_device(drv, dev);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//遍历设备来绑定驱动的函数</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> __driver_attach(<span class="keyword">struct</span> device *dev, <span class="type">void</span> *data)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">device_driver</span> *<span class="title">drv</span> =</span> data;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!driver_match_device(drv, dev))</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (dev-&gt;parent)	<span class="comment">/* Needed for USB */</span></span><br><span class="line">		device_lock(dev-&gt;parent);</span><br><span class="line">	device_lock(dev);</span><br><span class="line">	<span class="keyword">if</span> (!dev-&gt;driver)</span><br><span class="line">		driver_probe_device(drv, dev);</span><br><span class="line">	device_unlock(dev);</span><br><span class="line">	<span class="keyword">if</span> (dev-&gt;parent)</span><br><span class="line">		device_unlock(dev-&gt;parent);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>很显然上面的两个过程基本上是一致的，主要是<code>driver_match_device</code>和<code>driver_probe_device</code>这两个函数,那么我们就在深入探究一番：</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">static inline int driver_match_device(struct device_driver *drv,
-				      struct device *dev)
-&#123;
-	return drv-&gt;bus-&gt;match ? drv-&gt;bus-&gt;match(dev, drv) : 1;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">int</span> <span class="title function_">driver_match_device</span><span class="params">(<span class="keyword">struct</span> device_driver *drv,</span></span><br><span class="line"><span class="params">				      <span class="keyword">struct</span> device *dev)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> drv-&gt;bus-&gt;match ? drv-&gt;bus-&gt;match(dev, drv) : <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>哈哈，找到了。功夫不负有心人呀，这就是我们想要的~意思已经很明白了，如果bus的match函数存在的话就调用咯，这个就是我们的<code>platform_match</code>函数。<br />
 下面在看另外一个函数<code>driver_probe_device</code>:</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">int driver_probe_device(struct device_driver *drv, struct device *dev)
-&#123;
-    ...
-        static int really_probe(struct device *dev, struct device_driver *drv)
-        &#123;
-            ...
-            
-            if (dev-&gt;bus-&gt;probe)    &#x2F;&#x2F;如果总线的probe函数存在就调用总线的probe函数
-            &#123;
-                ret &#x3D; dev-&gt;bus-&gt;probe(dev);
-                if (ret)
-                    goto probe_failed;
-            &#125; else if (drv-&gt;probe)  &#x2F;&#x2F;否则就调用driver的probe函数
-            &#123;
-                ret &#x3D; drv-&gt;probe(dev);
-                if (ret)
-                    goto probe_failed;
-            &#125;    
-            
-            ...
-        &#125;
-    ...
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">driver_probe_device</span><span class="params">(<span class="keyword">struct</span> device_driver *drv, <span class="keyword">struct</span> device *dev)</span></span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">        <span class="type">static</span> <span class="type">int</span> <span class="title function_">really_probe</span><span class="params">(<span class="keyword">struct</span> device *dev, <span class="keyword">struct</span> device_driver *drv)</span></span><br><span class="line">        &#123;</span><br><span class="line">            ...</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (dev-&gt;bus-&gt;probe)    <span class="comment">//如果总线的probe函数存在就调用总线的probe函数</span></span><br><span class="line">            &#123;</span><br><span class="line">                ret = dev-&gt;bus-&gt;probe(dev);</span><br><span class="line">                <span class="keyword">if</span> (ret)</span><br><span class="line">                    <span class="keyword">goto</span> probe_failed;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (drv-&gt;probe)  <span class="comment">//否则就调用driver的probe函数</span></span><br><span class="line">            &#123;</span><br><span class="line">                ret = drv-&gt;probe(dev);</span><br><span class="line">                <span class="keyword">if</span> (ret)</span><br><span class="line">                    <span class="keyword">goto</span> probe_failed;</span><br><span class="line">            &#125;    </span><br><span class="line">            </span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面的代码意思也很明了，如果总线的probe函数存在就调用总线的probe函数，否则就调用driver的probe函数。通过上面的platform的定义来看，很明显总线的probe函数没有定义，那么自然调用的就是driver中的probe函数了。</p>
 <h1 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h1>
 <p>总线分别维护两条链表来记录当前挂载的设备和驱动。不论是设备和驱动哪一方先注册，总线都会遍历另一方来进行匹配（match），匹配成功后会调用driver的probe函数来进行相应的设备初始化等操作。</p>

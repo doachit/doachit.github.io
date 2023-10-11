@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.14.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Linux下查看当前的PCI拓扑图，得到的结果如下所示： root@dell:~# lspci -t -[0000:00]-+-00.0            +-01.0-[01]--+-00.0            |            \-00.1            +-02.0            +-03.0            +-14.0            +-16">
+    <meta name="description" content="Linux下查看当前的PCI拓扑图，得到的结果如下所示： 1234567891011121314151617root@dell:~# lspci -t-[0000:00]-+-00.0           +-01.0-[01]--+-00.0           |            \-00.1           +-02.0           +-03.0           +-1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PCIe 拓扑结构">
 <meta property="og:url" content="http://example.com/2023/06/03/Linux%20PCIe%20Topology/index.html">
 <meta property="og:site_name" content="一个人的世界">
-<meta property="og:description" content="Linux下查看当前的PCI拓扑图，得到的结果如下所示： root@dell:~# lspci -t -[0000:00]-+-00.0            +-01.0-[01]--+-00.0            |            \-00.1            +-02.0            +-03.0            +-14.0            +-16">
+<meta property="og:description" content="Linux下查看当前的PCI拓扑图，得到的结果如下所示： 1234567891011121314151617root@dell:~# lspci -t-[0000:00]-+-00.0           +-01.0-[01]--+-00.0           |            \-00.1           +-02.0           +-03.0           +-1">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-06-02T23:18:22.000Z">
 <meta property="article:modified_time" content="2023-06-12T22:15:01.597Z">
@@ -265,42 +265,10 @@
     
     <div class="post-body" itemprop="articleBody">
         <p>Linux下查看当前的PCI拓扑图，得到的结果如下所示：</p>
-<pre class="line-numbers language-none"><code class="language-none">root@dell:~# lspci -t
--[0000:00]-+-00.0
-           +-01.0-[01]--+-00.0
-           |            \-00.1
-           +-02.0
-           +-03.0
-           +-14.0
-           +-16.0
-           +-1a.0
-           +-1b.0
-           +-1c.0-[02]--
-           +-1c.1-[03-04]----00.0-[04]--
-           +-1c.4-[05]----00.0
-           +-1d.0
-           +-1f.0
-           +-1f.2
-           \-1f.3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">root@dell:~# lspci -t</span><br><span class="line">-[0000:00]-+-00.0</span><br><span class="line">           +-01.0-[01]--+-00.0</span><br><span class="line">           |            \-00.1</span><br><span class="line">           +-02.0</span><br><span class="line">           +-03.0</span><br><span class="line">           +-14.0</span><br><span class="line">           +-16.0</span><br><span class="line">           +-1a.0</span><br><span class="line">           +-1b.0</span><br><span class="line">           +-1c.0-[02]--</span><br><span class="line">           +-1c.1-[03-04]----00.0-[04]--</span><br><span class="line">           +-1c.4-[05]----00.0</span><br><span class="line">           +-1d.0</span><br><span class="line">           +-1f.0</span><br><span class="line">           +-1f.2</span><br><span class="line">           \-1f.3</span><br></pre></td></tr></table></figure>
 <span id="more"></span>
 <p>你也可以加上-v来查看更多的具体信息：</p>
-<pre class="line-numbers language-none"><code class="language-none">root@dell:~# lspci -tv
--[0000:00]-+-00.0  Intel Corporation 4th Gen Core Processor DRAM Controller
-           +-01.0-[01]--+-00.0  Intel Corporation I350 Gigabit Network Connection
-           |            \-00.1  Intel Corporation I350 Gigabit Network Connection
-           +-02.0  Intel Corporation Xeon E3-1200 v3&#x2F;4th Gen Core Processor Integrated Graphics Controller
-           +-03.0  Intel Corporation Xeon E3-1200 v3&#x2F;4th Gen Core Processor HD Audio Controller
-           +-14.0  Intel Corporation 8 Series&#x2F;C220 Series Chipset Family USB xHCI
-           +-16.0  Intel Corporation 8 Series&#x2F;C220 Series Chipset Family MEI Controller #1
-           +-1a.0  Intel Corporation 8 Series&#x2F;C220 Series Chipset Family USB EHCI #2
-           +-1b.0  Intel Corporation 8 Series&#x2F;C220 Series Chipset High Definition Audio Controller
-           +-1c.0-[02]--
-           +-1c.1-[03-04]----00.0-[04]--
-           +-1c.4-[05]----00.0  Samsung Electronics Co Ltd NVMe SSD Controller PM173X
-           +-1d.0  Intel Corporation 8 Series&#x2F;C220 Series Chipset Family USB EHCI #1
-           +-1f.0  Intel Corporation Q87 Express LPC Controller
-           +-1f.2  Intel Corporation SATA Controller [RAID mode]
-           \-1f.3  Intel Corporation 8 Series&#x2F;C220 Series Chipset Family SMBus Controller<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">root@dell:~# lspci -tv</span><br><span class="line">-[0000:00]-+-00.0  Intel Corporation 4th Gen Core Processor DRAM Controller</span><br><span class="line">           +-01.0-[01]--+-00.0  Intel Corporation I350 Gigabit Network Connection</span><br><span class="line">           |            \-00.1  Intel Corporation I350 Gigabit Network Connection</span><br><span class="line">           +-02.0  Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor Integrated Graphics Controller</span><br><span class="line">           +-03.0  Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor HD Audio Controller</span><br><span class="line">           +-14.0  Intel Corporation 8 Series/C220 Series Chipset Family USB xHCI</span><br><span class="line">           +-16.0  Intel Corporation 8 Series/C220 Series Chipset Family MEI Controller #1</span><br><span class="line">           +-1a.0  Intel Corporation 8 Series/C220 Series Chipset Family USB EHCI #2</span><br><span class="line">           +-1b.0  Intel Corporation 8 Series/C220 Series Chipset High Definition Audio Controller</span><br><span class="line">           +-1c.0-[02]--</span><br><span class="line">           +-1c.1-[03-04]----00.0-[04]--</span><br><span class="line">           +-1c.4-[05]----00.0  Samsung Electronics Co Ltd NVMe SSD Controller PM173X</span><br><span class="line">           +-1d.0  Intel Corporation 8 Series/C220 Series Chipset Family USB EHCI #1</span><br><span class="line">           +-1f.0  Intel Corporation Q87 Express LPC Controller</span><br><span class="line">           +-1f.2  Intel Corporation SATA Controller [RAID mode]</span><br><span class="line">           \-1f.3  Intel Corporation 8 Series/C220 Series Chipset Family SMBus Controller</span><br></pre></td></tr></table></figure>
 <p>从上面的拓扑结构中可以看出，只有一个domain，然后bus 00下面挂载了多个设备。</p>
 <ul>
 <li><strong>普通设备</strong>：00.0、02.0、03.0、14.0、16.0、1a.0、1b.0、1d.0、1f.0-3</li>
@@ -308,32 +276,7 @@
 其中01.0桥设备扩展出bus 01，bus 01下面挂载了一个多Function设备；1c.0 桥设备扩展出bus 02，但是上面没有挂载设备。</li>
 </ul>
 <p>当然上面1c.1桥设备的连接还是很奇怪，看一下==/sys/bus/pci/devices==中的设备连接以及lspci的结果：</p>
-<pre class="line-numbers language-none"><code class="language-none">lrwxrwxrwx 1 root root 0 Mar 30 13:11 0000:01:00.0 -&gt; ..&#x2F;..&#x2F;..&#x2F;devices&#x2F;pci0000:00&#x2F;0000:00:01.0&#x2F;0000:01:00.0&#x2F;
-lrwxrwxrwx 1 root root 0 Mar 30 13:11 0000:01:00.1 -&gt; ..&#x2F;..&#x2F;..&#x2F;devices&#x2F;pci0000:00&#x2F;0000:00:01.0&#x2F;0000:01:00.1&#x2F;
-lrwxrwxrwx 1 root root 0 Mar 30 13:11 0000:03:00.0 -&gt; ..&#x2F;..&#x2F;..&#x2F;devices&#x2F;pci0000:00&#x2F;0000:00:1c.1&#x2F;0000:03:00.0&#x2F;
-lrwxrwxrwx 1 root root 0 Mar 30 13:31 0000:05:00.0 -&gt; ..&#x2F;..&#x2F;..&#x2F;devices&#x2F;pci0000:00&#x2F;0000:00:1c.4&#x2F;0000:05:00.0&#x2F;
-
-&#x2F;&#x2F;lspci的结果
-root@dell:~# lspci
-00:00.0 Host bridge: Intel Corporation 4th Gen Core Processor DRAM Controller (rev 06)
-00:01.0 PCI bridge: Intel Corporation Xeon E3-1200 v3&#x2F;4th Gen Core Processor PCI Express x16 Controller (rev 06)
-00:02.0 VGA compatible controller: Intel Corporation Xeon E3-1200 v3&#x2F;4th Gen Core Processor Integrated Graphics Controller (rev 06)
-00:03.0 Audio device: Intel Corporation Xeon E3-1200 v3&#x2F;4th Gen Core Processor HD Audio Controller (rev 06)
-00:14.0 USB controller: Intel Corporation 8 Series&#x2F;C220 Series Chipset Family USB xHCI (rev 04)
-00:16.0 Communication controller: Intel Corporation 8 Series&#x2F;C220 Series Chipset Family MEI Controller #1 (rev 04)
-00:1a.0 USB controller: Intel Corporation 8 Series&#x2F;C220 Series Chipset Family USB EHCI #2 (rev 04)
-00:1b.0 Audio device: Intel Corporation 8 Series&#x2F;C220 Series Chipset High Definition Audio Controller (rev 04)
-00:1c.0 PCI bridge: Intel Corporation 8 Series&#x2F;C220 Series Chipset Family PCI Express Root Port #1 (rev d4)
-00:1c.1 PCI bridge: Intel Corporation 8 Series&#x2F;C220 Series Chipset Family PCI Express Root Port #2 (rev d4)
-00:1c.4 PCI bridge: Intel Corporation 8 Series&#x2F;C220 Series Chipset Family PCI Express Root Port #5 (rev d4)
-00:1d.0 USB controller: Intel Corporation 8 Series&#x2F;C220 Series Chipset Family USB EHCI #1 (rev 04)
-00:1f.0 ISA bridge: Intel Corporation Q87 Express LPC Controller (rev 04)
-00:1f.2 RAID bus controller: Intel Corporation SATA Controller [RAID mode] (rev 04)
-00:1f.3 SMBus: Intel Corporation 8 Series&#x2F;C220 Series Chipset Family SMBus Controller (rev 04)
-01:00.0 Ethernet controller: Intel Corporation I350 Gigabit Network Connection (rev 01)
-01:00.1 Ethernet controller: Intel Corporation I350 Gigabit Network Connection (rev 01)
-03:00.0 PCI bridge: Texas Instruments XIO2001 PCI Express-to-PCI Bridge
-05:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">lrwxrwxrwx 1 root root 0 Mar 30 13:11 0000:01:00.0 -&gt; ../../../devices/pci0000:00/0000:00:01.0/0000:01:00.0/</span><br><span class="line">lrwxrwxrwx 1 root root 0 Mar 30 13:11 0000:01:00.1 -&gt; ../../../devices/pci0000:00/0000:00:01.0/0000:01:00.1/</span><br><span class="line">lrwxrwxrwx 1 root root 0 Mar 30 13:11 0000:03:00.0 -&gt; ../../../devices/pci0000:00/0000:00:1c.1/0000:03:00.0/</span><br><span class="line">lrwxrwxrwx 1 root root 0 Mar 30 13:31 0000:05:00.0 -&gt; ../../../devices/pci0000:00/0000:00:1c.4/0000:05:00.0/</span><br><span class="line"></span><br><span class="line">//lspci的结果</span><br><span class="line">root@dell:~# lspci</span><br><span class="line">00:00.0 Host bridge: Intel Corporation 4th Gen Core Processor DRAM Controller (rev 06)</span><br><span class="line">00:01.0 PCI bridge: Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor PCI Express x16 Controller (rev 06)</span><br><span class="line">00:02.0 VGA compatible controller: Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor Integrated Graphics Controller (rev 06)</span><br><span class="line">00:03.0 Audio device: Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor HD Audio Controller (rev 06)</span><br><span class="line">00:14.0 USB controller: Intel Corporation 8 Series/C220 Series Chipset Family USB xHCI (rev 04)</span><br><span class="line">00:16.0 Communication controller: Intel Corporation 8 Series/C220 Series Chipset Family MEI Controller #1 (rev 04)</span><br><span class="line">00:1a.0 USB controller: Intel Corporation 8 Series/C220 Series Chipset Family USB EHCI #2 (rev 04)</span><br><span class="line">00:1b.0 Audio device: Intel Corporation 8 Series/C220 Series Chipset High Definition Audio Controller (rev 04)</span><br><span class="line">00:1c.0 PCI bridge: Intel Corporation 8 Series/C220 Series Chipset Family PCI Express Root Port #1 (rev d4)</span><br><span class="line">00:1c.1 PCI bridge: Intel Corporation 8 Series/C220 Series Chipset Family PCI Express Root Port #2 (rev d4)</span><br><span class="line">00:1c.4 PCI bridge: Intel Corporation 8 Series/C220 Series Chipset Family PCI Express Root Port #5 (rev d4)</span><br><span class="line">00:1d.0 USB controller: Intel Corporation 8 Series/C220 Series Chipset Family USB EHCI #1 (rev 04)</span><br><span class="line">00:1f.0 ISA bridge: Intel Corporation Q87 Express LPC Controller (rev 04)</span><br><span class="line">00:1f.2 RAID bus controller: Intel Corporation SATA Controller [RAID mode] (rev 04)</span><br><span class="line">00:1f.3 SMBus: Intel Corporation 8 Series/C220 Series Chipset Family SMBus Controller (rev 04)</span><br><span class="line">01:00.0 Ethernet controller: Intel Corporation I350 Gigabit Network Connection (rev 01)</span><br><span class="line">01:00.1 Ethernet controller: Intel Corporation I350 Gigabit Network Connection (rev 01)</span><br><span class="line">03:00.0 PCI bridge: Texas Instruments XIO2001 PCI Express-to-PCI Bridge</span><br><span class="line">05:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller </span><br></pre></td></tr></table></figure>
 <p>可以看到1c.1下面接了一个设备是03:00.0，这是一个PCI Bridge设备，扩展出了bus 04，上面没有挂载其它设备。</p>
 <p>在网上也查到了这种奇怪拓扑的解释：</p>
 <ul>
@@ -342,8 +285,7 @@ root@dell:~# lspci
 总之按我自己理解的意思是1c.1是一个桥设备，它以及它的child扩展出了多个连续的总线，所以用[]包围起来，在本例中，1c.1扩展出bus 03 ，bus 03上面连接了03:00.0，然后又扩展出来了一个bus 04，所以对于1c.1来说后面就扩展出来了两条总线。</li>
 </ul>
 <p>还看到了更复杂的：</p>
-<pre class="line-numbers language-none"><code class="language-none">+-[0000:3a]-+-00.0-[3b-3d]----00.0-[3c-3d]----03.0-[3d]----00.0  Intel Corporation Ethernet Connection X722
-|           +-05.0  Intel Corporation Sky Lake-E VT-d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+-[0000:3a]-+-00.0-[3b-3d]----00.0-[3c-3d]----03.0-[3d]----00.0  Intel Corporation Ethernet Connection X722</span><br><span class="line">|           +-05.0  Intel Corporation Sky Lake-E VT-d</span><br></pre></td></tr></table></figure>
 <p>3a:00.0后面扩展出3b-3d的总线，这些总线是由两个PCI Bridge设备通过两级扩展得来的，可能是3b:00.0扩展了bus 3c，第二级3c:00.0扩展了bus 3d，最终3d总线连接了一个3d:00.0的Ethernet设备。</p>
 
     </div>

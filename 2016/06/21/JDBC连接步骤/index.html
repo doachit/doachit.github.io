@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.14.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="JDBC全称为java database connection ，即java数据库连接，JDBC是连接Java应用程序和底层数据库的桥梁，示意图如下:  JDBC的连接过程一般是下面几个步骤;  加载驱动 Class.forName(&quot;com.mysql.jdbc.Driver&quot;);">
+    <meta name="description" content="JDBC全称为java database connection ，即java数据库连接，JDBC是连接Java应用程序和底层数据库的桥梁，示意图如下:  JDBC的连接过程一般是下面几个步骤;  加载驱动 1Class.forName(&quot;com.mysql.jdbc.Driver&quot;);">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JDBC连接步骤">
 <meta property="og:url" content="http://example.com/2016/06/21/JDBC%E8%BF%9E%E6%8E%A5%E6%AD%A5%E9%AA%A4/index.html">
 <meta property="og:site_name" content="一个人的世界">
-<meta property="og:description" content="JDBC全称为java database connection ，即java数据库连接，JDBC是连接Java应用程序和底层数据库的桥梁，示意图如下:  JDBC的连接过程一般是下面几个步骤;  加载驱动 Class.forName(&quot;com.mysql.jdbc.Driver&quot;);">
+<meta property="og:description" content="JDBC全称为java database connection ，即java数据库连接，JDBC是连接Java应用程序和底层数据库的桥梁，示意图如下:  JDBC的连接过程一般是下面几个步骤;  加载驱动 1Class.forName(&quot;com.mysql.jdbc.Driver&quot;);">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/jdbc.jpg">
 <meta property="article:published_time" content="2016-06-21T14:18:22.000Z">
@@ -272,119 +272,19 @@
 <img src="/img/jdbc.jpg" alt="JDBC示意图" /><br />
 JDBC的连接过程一般是下面几个步骤;</p>
 <h3 id="加载驱动"><a class="markdownIt-Anchor" href="#加载驱动"></a> 加载驱动</h3>
-<pre class="line-numbers language-none"><code class="language-none">Class.forName(&quot;com.mysql.jdbc.Driver&quot;); <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class.forName(&quot;com.mysql.jdbc.Driver&quot;); </span><br></pre></td></tr></table></figure>
 <span id="more"></span>
 <h3 id="建立连接"><a class="markdownIt-Anchor" href="#建立连接"></a> 建立连接</h3>
-<pre class="line-numbers language-none"><code class="language-none">conn &#x3D; (Connection) DriverManager.getConnection(link,user,password);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conn = (Connection) DriverManager.getConnection(link,user,password);</span><br></pre></td></tr></table></figure>
 <h3 id="创建执行sql语句的statement"><a class="markdownIt-Anchor" href="#创建执行sql语句的statement"></a> 创建执行SQL语句的Statement</h3>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">stat <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">Statement</span><span class="token punctuation">)</span> conn<span class="token punctuation">.</span><span class="token function">createStatement</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stat = (Statement) conn.createStatement(); </span><br></pre></td></tr></table></figure>
 <h3 id="执行sql语句对查询的返回的结果进行处理"><a class="markdownIt-Anchor" href="#执行sql语句对查询的返回的结果进行处理"></a> 执行SQL语句，对查询的返回的结果进行处理</h3>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">ResultSet</span> set <span class="token operator">=</span> stat<span class="token punctuation">.</span><span class="token function">executeQuery</span><span class="token punctuation">(</span><span class="token string">"select * from tableName"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>`
-<span class="token keyword">while</span><span class="token punctuation">(</span>set<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>`
-<span class="token punctuation">&#123;</span>
-    <span class="token comment">//这是两种取数的方法</span>
-    set<span class="token punctuation">.</span><span class="token function">getString</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    set<span class="token punctuation">.</span><span class="token function">getString</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ResultSet</span> <span class="variable">set</span> <span class="operator">=</span> stat.executeQuery(<span class="string">&quot;select * from tableName&quot;</span>);`</span><br><span class="line"><span class="keyword">while</span>(set.next())`</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//这是两种取数的方法</span></span><br><span class="line">    set.getString(<span class="number">1</span>);</span><br><span class="line">    set.getString(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="关闭资源"><a class="markdownIt-Anchor" href="#关闭资源"></a> 关闭资源</h3>
 <p>要按时释放资源，否则可能会导致资源少儿死机。一般是关闭ResultSet，Statement，Connection的连接。</p>
-<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;注意要捕获异常
-if(set !&#x3D; null)
-&#123;
-    set.close();
-&#125;
-if(stat !&#x3D; null)
-&#123;
-    stat.close();
-&#125;
-if(conn !&#x3D; null)
-&#123;
-    conn.close();
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//注意要捕获异常</span><br><span class="line">if(set != null)</span><br><span class="line">&#123;</span><br><span class="line">    set.close();</span><br><span class="line">&#125;</span><br><span class="line">if(stat != null)</span><br><span class="line">&#123;</span><br><span class="line">    stat.close();</span><br><span class="line">&#125;</span><br><span class="line">if(conn != null)</span><br><span class="line">&#123;</span><br><span class="line">    conn.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="一个完整的实例"><a class="markdownIt-Anchor" href="#一个完整的实例"></a> 一个完整的实例</h1>
-<pre class="line-numbers language-none"><code class="language-none">import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
-
-public class Test &#123;
-
-	public static void main(String[] args) &#123;
-		String driver &#x3D; &quot;com.mysql.jdbc.Driver&quot;;
-		String link &#x3D; &quot;jdbc:mysql:&#x2F;&#x2F;localhost&#x2F;student&quot;;&#x2F;&#x2F;student 是表名
-		String user &#x3D; &quot;user&quot;;
-		String password &#x3D; &quot;password&quot;;
-		Connection conn &#x3D; null;
-		Statement stat &#x3D; null;
-		ResultSet set &#x3D; null;
-		
-		
-		try &#123;
-			Class.forName(driver);&#x2F;&#x2F;加载驱动
-			
-			conn &#x3D; (Connection) DriverManager.getConnection(link,user,password);&#x2F;&#x2F;建立连接
-		 
-			stat &#x3D; (Statement) conn.createStatement();&#x2F;&#x2F;创建执行语句的Statement
-			
-			set &#x3D; stat.executeQuery(&quot;select * from student&quot;);&#x2F;&#x2F;执行查询语句
-			
-			System.out.println(&quot;\t姓名\t性别\t科目一\t科目二&quot;);
-			
-			while(set.next())&#x2F;&#x2F;打印输出查询结果
-			&#123;
-				System.out.println(&quot;\t&quot; + set.getString(1) + &quot;\t&quot; + set.getString(2) + &quot;\t&quot;
-								    + set.getFloat(5) + &quot;\t&quot; +set.getFloat(6));
-			&#125;
-		&#125; catch (SQLException e) 
-		&#123;
-			e.printStackTrace();
-		&#125;
-		catch (ClassNotFoundException e) 
-		&#123;
-			e.printStackTrace();
-		&#125;finally &#x2F;&#x2F;在finally中关闭资源
-		&#123;
-			try
-			&#123;
-				if(set !&#x3D; null)
-				&#123;
-					set.close();
-				&#125;
-			&#125;catch (SQLException e)
-			&#123;
-				e.printStackTrace();
-			&#125;
-			
-			try
-			&#123;
-				if(stat !&#x3D; null)
-				&#123;
-					stat.close();
-				&#125;
-			&#125;catch (SQLException e)
-			&#123;
-				e.printStackTrace();
-			&#125;
-			
-			try
-			&#123;
-				if(conn !&#x3D; null)
-				&#123;
-					conn.close();
-				&#125;
-			&#125;catch (SQLException e)
-			&#123;
-				e.printStackTrace();
-			&#125;
-		&#125;
-
-		
-	&#125;
-
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">import java.sql.DriverManager;</span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line"></span><br><span class="line">import com.mysql.jdbc.Connection;</span><br><span class="line">import com.mysql.jdbc.Statement;</span><br><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		String driver = &quot;com.mysql.jdbc.Driver&quot;;</span><br><span class="line">		String link = &quot;jdbc:mysql://localhost/student&quot;;//student 是表名</span><br><span class="line">		String user = &quot;user&quot;;</span><br><span class="line">		String password = &quot;password&quot;;</span><br><span class="line">		Connection conn = null;</span><br><span class="line">		Statement stat = null;</span><br><span class="line">		ResultSet set = null;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		try &#123;</span><br><span class="line">			Class.forName(driver);//加载驱动</span><br><span class="line">			</span><br><span class="line">			conn = (Connection) DriverManager.getConnection(link,user,password);//建立连接</span><br><span class="line">		 </span><br><span class="line">			stat = (Statement) conn.createStatement();//创建执行语句的Statement</span><br><span class="line">			</span><br><span class="line">			set = stat.executeQuery(&quot;select * from student&quot;);//执行查询语句</span><br><span class="line">			</span><br><span class="line">			System.out.println(&quot;\t姓名\t性别\t科目一\t科目二&quot;);</span><br><span class="line">			</span><br><span class="line">			while(set.next())//打印输出查询结果</span><br><span class="line">			&#123;</span><br><span class="line">				System.out.println(&quot;\t&quot; + set.getString(1) + &quot;\t&quot; + set.getString(2) + &quot;\t&quot;</span><br><span class="line">								    + set.getFloat(5) + &quot;\t&quot; +set.getFloat(6));</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; catch (SQLException e) </span><br><span class="line">		&#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		catch (ClassNotFoundException e) </span><br><span class="line">		&#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;finally //在finally中关闭资源</span><br><span class="line">		&#123;</span><br><span class="line">			try</span><br><span class="line">			&#123;</span><br><span class="line">				if(set != null)</span><br><span class="line">				&#123;</span><br><span class="line">					set.close();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;catch (SQLException e)</span><br><span class="line">			&#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			try</span><br><span class="line">			&#123;</span><br><span class="line">				if(stat != null)</span><br><span class="line">				&#123;</span><br><span class="line">					stat.close();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;catch (SQLException e)</span><br><span class="line">			&#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			try</span><br><span class="line">			&#123;</span><br><span class="line">				if(conn != null)</span><br><span class="line">				&#123;</span><br><span class="line">					conn.close();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;catch (SQLException e)</span><br><span class="line">			&#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>本文使用 <strong>小书匠编辑器</strong>发布。</p>
 
     </div>

@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.14.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="JDBC中可以执行基本的查询操作，有的时候我们会需要统计符合相关条件条目的数目，但是 JDBC并没有提供相关的API来得到该信息。但是通过下面几种操作能够实现：  通过统计ResutSet中条目数目进行操作 ResultSet set &#x3D; stat.executeQuery(&quot;select * from tableName&quot;); int countNum &#x3D;">
+    <meta name="description" content="JDBC中可以执行基本的查询操作，有的时候我们会需要统计符合相关条件条目的数目，但是 JDBC并没有提供相关的API来得到该信息。但是通过下面几种操作能够实现：  通过统计ResutSet中条目数目进行操作 123456ResultSet set &#x3D; stat.executeQuery(&quot;select * from tableName&quot;);int countNum &#x3D; 0;wh">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JDBC统计查询条目数目">
 <meta property="og:url" content="http://example.com/2016/06/20/JDBC%E7%BB%9F%E8%AE%A1%E6%9F%A5%E8%AF%A2%E6%9D%A1%E7%9B%AE%E6%95%B0%E7%9B%AE/index.html">
 <meta property="og:site_name" content="一个人的世界">
-<meta property="og:description" content="JDBC中可以执行基本的查询操作，有的时候我们会需要统计符合相关条件条目的数目，但是 JDBC并没有提供相关的API来得到该信息。但是通过下面几种操作能够实现：  通过统计ResutSet中条目数目进行操作 ResultSet set &#x3D; stat.executeQuery(&quot;select * from tableName&quot;); int countNum &#x3D;">
+<meta property="og:description" content="JDBC中可以执行基本的查询操作，有的时候我们会需要统计符合相关条件条目的数目，但是 JDBC并没有提供相关的API来得到该信息。但是通过下面几种操作能够实现：  通过统计ResutSet中条目数目进行操作 123456ResultSet set &#x3D; stat.executeQuery(&quot;select * from tableName&quot;);int countNum &#x3D; 0;wh">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-06-20T14:18:22.000Z">
 <meta property="article:modified_time" content="2023-06-13T22:42:02.233Z">
@@ -268,26 +268,12 @@
         <p>JDBC中可以执行基本的查询操作，有的时候我们会需要统计符合相关条件条目的数目，但是<br />
 JDBC并没有提供相关的API来得到该信息。但是通过下面几种操作能够实现：</p>
 <h1 id="通过统计resutset中条目数目进行操作"><a class="markdownIt-Anchor" href="#通过统计resutset中条目数目进行操作"></a> 通过统计ResutSet中条目数目进行操作</h1>
-<pre class="line-numbers language-none"><code class="language-none">ResultSet set &#x3D; stat.executeQuery(&quot;select * from tableName&quot;);
-int countNum &#x3D; 0;
-while(set.next())
-&#123;
-    countNum++;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ResultSet set = stat.executeQuery(&quot;select * from tableName&quot;);</span><br><span class="line">int countNum = 0;</span><br><span class="line">while(set.next())</span><br><span class="line">&#123;</span><br><span class="line">    countNum++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <span id="more"></span>
 <h1 id="通过jdbc中的getrow来得到最后一行的行号来进行查询"><a class="markdownIt-Anchor" href="#通过jdbc中的getrow来得到最后一行的行号来进行查询"></a> 通过JDBC中的getRow()来得到最后一行的行号来进行查询</h1>
-<pre class="line-numbers language-none"><code class="language-none">ResultSet set &#x3D; stat.executeQuery(&quot;select * from tableName&quot;);
-set.last(); &#x2F;&#x2F;移动到最后一行
-int countNum &#x3D; set.getRow();&#x2F;&#x2F;得到最后一行的行号，也就是总的条目信息
-set.beforeFirst();&#x2F;&#x2F;回到第零行，第一行是正式的数据（如果查询到的话）
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ResultSet set = stat.executeQuery(&quot;select * from tableName&quot;);</span><br><span class="line">set.last(); //移动到最后一行</span><br><span class="line">int countNum = set.getRow();//得到最后一行的行号，也就是总的条目信息</span><br><span class="line">set.beforeFirst();//回到第零行，第一行是正式的数据（如果查询到的话）</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h1 id="通过count语句进行实现"><a class="markdownIt-Anchor" href="#通过count语句进行实现"></a> 通过count语句进行实现</h1>
-<pre class="line-numbers language-none"><code class="language-none">ResultSet set &#x3D; stat.executeQuery(&quot;select count(*) from tableName&quot;);
-int countNum;
-if(set.next())
-&#123;
-    countNum &#x3D; set.getInt(&quot;count(*)&quot;);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ResultSet set = stat.executeQuery(&quot;select count(*) from tableName&quot;);</span><br><span class="line">int countNum;</span><br><span class="line">if(set.next())</span><br><span class="line">&#123;</span><br><span class="line">    countNum = set.getInt(&quot;count(*)&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><a target="_blank" rel="noopener" href="http://blog.csdn.net/chenzhanhai/article/details/6257066">文章参考地址</a><br />
 本文使用 <strong>小书匠编辑器</strong>发布。</p>
 
