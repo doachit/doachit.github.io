@@ -14,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.14.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="JDBC中可以执行基本的查询操作，有的时候我们会需要统计符合相关条件条目的数目，但是 JDBC并没有提供相关的API来得到该信息。但是通过下面几种操作能够实现：  通过统计ResutSet中条目数目进行操作 123456ResultSet set &#x3D; stat.executeQuery(&quot;select * from tableName&quot;);int countNum &#x3D; 0;wh">
 <meta property="og:type" content="article">
@@ -49,9 +49,7 @@
 
 
 
-  <script async defer data-website-id="" src=""></script>
 
-  <script defer data-domain="" src=""></script>
 <link rel="dns-prefetch" href="next-comment-theta.vercel.app">
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
@@ -264,8 +262,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
-        <p>JDBC中可以执行基本的查询操作，有的时候我们会需要统计符合相关条件条目的数目，但是<br />
+    <div class="post-body" itemprop="articleBody"><p>JDBC中可以执行基本的查询操作，有的时候我们会需要统计符合相关条件条目的数目，但是<br />
 JDBC并没有提供相关的API来得到该信息。但是通过下面几种操作能够实现：</p>
 <h1 id="通过统计resutset中条目数目进行操作"><a class="markdownIt-Anchor" href="#通过统计resutset中条目数目进行操作"></a> 通过统计ResutSet中条目数目进行操作</h1>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ResultSet set = stat.executeQuery(&quot;select * from tableName&quot;);</span><br><span class="line">int countNum = 0;</span><br><span class="line">while(set.next())</span><br><span class="line">&#123;</span><br><span class="line">    countNum++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -294,12 +291,12 @@ JDBC并没有提供相关的API来得到该信息。但是通过下面几种操�
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2016/06/02/%E6%88%90%E7%BB%A9%E6%9F%A5%E8%AF%A2%E7%B3%BB%E7%BB%9F%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" rel="prev" title="成绩查询系统问题记录">
-                  <i class="fa fa-chevron-left"></i> 成绩查询系统问题记录
+                  <i class="fa fa-angle-left"></i> 成绩查询系统问题记录
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2016/06/21/JDBC%E8%BF%9E%E6%8E%A5%E6%AD%A5%E9%AA%A4/" rel="next" title="JDBC连接步骤">
-                  JDBC连接步骤 <i class="fa fa-chevron-right"></i>
+                  JDBC连接步骤 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -319,15 +316,14 @@ JDBC并没有提供相关的API来得到该信息。但是通过下面几种操�
   <footer class="footer">
     <div class="footer-inner">
 
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">zhu</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">zhu</span>
+  </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
   </div>
 
@@ -357,6 +353,8 @@ JDBC并没有提供相关的API来得到该信息。但是通过下面几种操�
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
 <script src="/js/third-party/search/local-search.js"></script>
+
+
 
 
 
