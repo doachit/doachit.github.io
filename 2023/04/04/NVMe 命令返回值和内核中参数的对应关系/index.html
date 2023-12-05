@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="目的 每一个NVMe request执行完毕之后都有返回值，但是对于返回值到底对应内核中的哪个参数一直不清不楚，遂作本文。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NVMe 命令返回值和内核中参数的对应关系">
+<meta property="og:url" content="http://example.com/2023/04/04/NVMe%20%E5%91%BD%E4%BB%A4%E8%BF%94%E5%9B%9E%E5%80%BC%E5%92%8C%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%82%E6%95%B0%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB/index.html">
+<meta property="og:site_name" content="一个人的世界">
+<meta property="og:description" content="目的 每一个NVMe request执行完毕之后都有返回值，但是对于返回值到底对应内核中的哪个参数一直不清不楚，遂作本文。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/04/04/NVMe%20%E5%91%BD%E4%BB%A4%E8%BF%94%E5%9B%9E%E5%80%BC%E5%92%8C%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%82%E6%95%B0%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB/Pasted%20image%2020231204171341.png">
+<meta property="article:published_time" content="2023-04-04T05:20:00.000Z">
+<meta property="article:modified_time" content="2023-12-05T23:20:00.000Z">
+<meta property="article:author" content="zhu">
+<meta property="article:tag" content="NVMe">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/04/04/NVMe%20%E5%91%BD%E4%BB%A4%E8%BF%94%E5%9B%9E%E5%80%BC%E5%92%8C%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%82%E6%95%B0%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB/Pasted%20image%2020231204171341.png">
+
+
+<link rel="canonical" href="http://example.com/2023/04/04/NVMe%20%E5%91%BD%E4%BB%A4%E8%BF%94%E5%9B%9E%E5%80%BC%E5%92%8C%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%82%E6%95%B0%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/04/04/NVMe%20%E5%91%BD%E4%BB%A4%E8%BF%94%E5%9B%9E%E5%80%BC%E5%92%8C%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%82%E6%95%B0%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB/","path":"2023/04/04/NVMe 命令返回值和内核中参数的对应关系/","title":"NVMe 命令返回值和内核中参数的对应关系"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>NVMe 命令返回值和内核中参数的对应关系 | 一个人的世界</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="next-comment-theta.vercel.app">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">一个人的世界</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%AE%E7%9A%84"><span class="nav-number">1.</span> <span class="nav-text"> 目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#struct-nvme_passthru_cmd"><span class="nav-number">2.</span> <span class="nav-text"> struct nvme_passthru_cmd</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC%E7%9A%84%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91"><span class="nav-number">3.</span> <span class="nav-text"> 返回值的处理逻辑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/04/NVMe%20%E5%91%BD%E4%BB%A4%E8%BF%94%E5%9B%9E%E5%80%BC%E5%92%8C%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%82%E6%95%B0%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个人的世界">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="NVMe 命令返回值和内核中参数的对应关系 | 一个人的世界">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NVMe 命令返回值和内核中参数的对应关系
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-04-04 13:20:00" itemprop="dateCreated datePublished" datetime="2023-04-04T13:20:00+08:00">2023-04-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-12-06 07:20:00" itemprop="dateModified" datetime="2023-12-06T07:20:00+08:00">2023-12-06</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2023/04/04/NVMe%20%E5%91%BD%E4%BB%A4%E8%BF%94%E5%9B%9E%E5%80%BC%E5%92%8C%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%82%E6%95%B0%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2023/04/04/NVMe%20%E5%91%BD%E4%BB%A4%E8%BF%94%E5%9B%9E%E5%80%BC%E5%92%8C%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%82%E6%95%B0%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="目的"><a class="markdownIt-Anchor" href="#目的"></a> 目的</h1>
+<p>每一个NVMe request执行完毕之后都有返回值，但是对于返回值到底对应内核中的哪个参数一直不清不楚，遂作本文。</p>
+<span id="more"></span>
+<h1 id="struct-nvme_passthru_cmd"><a class="markdownIt-Anchor" href="#struct-nvme_passthru_cmd"></a> struct nvme_passthru_cmd</h1>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">nvme_passthru_cmd</span> &#123;</span></span><br><span class="line">	__u8	opcode;</span><br><span class="line">	__u8	flags;</span><br><span class="line">	__u16	rsvd1;</span><br><span class="line">	__u32	nsid;</span><br><span class="line">	__u32	cdw2;</span><br><span class="line">	__u32	cdw3;</span><br><span class="line">	__u64	metadata;</span><br><span class="line">	__u64	addr;</span><br><span class="line">	__u32	metadata_len;</span><br><span class="line">	__u32	data_len;</span><br><span class="line">	__u32	cdw10;</span><br><span class="line">	__u32	cdw11;</span><br><span class="line">	__u32	cdw12;</span><br><span class="line">	__u32	cdw13;</span><br><span class="line">	__u32	cdw14;</span><br><span class="line">	__u32	cdw15;</span><br><span class="line">	__u32	timeout_ms;</span><br><span class="line">	__u32	result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>可以看到在用户态的nvme_passthru_cmd只有一个返回值为result。</p>
+<p>在下发命令的过程中，内核会将用户态的<strong>struct nvme_passthru_cmd</strong>转换为内核态的<strong>struct nvme_command</strong>，内核中又有一个通用的数据结构<strong>struct nvme_req</strong>，这里面定义了几个状态：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">nvme_request</span> &#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">nvme_command</span>	*<span class="title">cmd</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">union</span> <span class="title">nvme_result</span>	<span class="title">result</span>;</span></span><br><span class="line">	u8			genctr;</span><br><span class="line">	u8			retries;</span><br><span class="line">	u8			flags;</span><br><span class="line">	u16			status;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> CONFIG_NVME_MULTIPATH</span></span><br><span class="line">	<span class="type">unsigned</span> <span class="type">long</span>		start_time;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">nvme_ctrl</span>	*<span class="title">ctrl</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>下面依次对这几个参数进行说明：</p>
+<p><strong>1）Status</strong><br />
+命令的执行结果都存放在Completion Entry中，而Completion Entry中包含了<strong>Status Field</strong>字段。<br />
+<img src="Pasted%20image%2020231204171341.png" alt="" /><br />
+如上图所示，Status Filed字段主要由两部分组成：<strong>Status Code Type</strong>和<strong>Status Code</strong>，其具体的含义可以参考NVMe Spec。<br />
+<strong>2）Flags</strong><br />
+flags是内核用来记录状态信息，内核中主要定义了两个值：</p>
+<ul>
+<li>NVME_REQ_CANCELLED (<strong>0x1</strong>) ：用于标识该命令被host主动cancle掉</li>
+<li>NVME_REQ_USERCMD (<strong>0x2</strong>)： 用于用户发送的命令，一般通过IOCTL下发的命令都是用户命令，区别于初始化过程中host主动发送的nvme命令</li>
+</ul>
+<p><strong>3）Retries</strong><br />
+用于标识该命令retry的次数。</p>
+<h1 id="返回值的处理逻辑"><a class="markdownIt-Anchor" href="#返回值的处理逻辑"></a> 返回值的处理逻辑</h1>
+<p>通常情况下，用户的命令是通过syscall IOCTL接口下发的，IOCTL接口会返回给用户一个执行结果来告知用户命令的执行状态。<br />
+实际上IOCTL的返回值由下面的函数提供：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Return values:</span></span><br><span class="line"><span class="comment"> * 0:  success</span></span><br><span class="line"><span class="comment"> * &gt;0: nvme controller&#x27;s cqe status response</span></span><br><span class="line"><span class="comment"> * &lt;0: kernel error in lieu of controller response</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">nvme_execute_rq</span><span class="params">(<span class="keyword">struct</span> request *rq, <span class="type">bool</span> at_head)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">blk_status_t</span> status;</span><br><span class="line"></span><br><span class="line">	status = blk_execute_rq(rq, at_head);</span><br><span class="line">	<span class="keyword">if</span> (nvme_req(rq)-&gt;flags &amp; NVME_REQ_CANCELLED) <span class="comment">//cancelled command</span></span><br><span class="line">		<span class="keyword">return</span> -EINTR;</span><br><span class="line">	<span class="keyword">if</span> (nvme_req(rq)-&gt;status)</span><br><span class="line">		<span class="keyword">return</span> nvme_req(rq)-&gt;status; <span class="comment">//通常情况下返回的是command的status</span></span><br><span class="line">	<span class="keyword">return</span> blk_status_to_errno(status);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> <span class="title function_">nvme_cancel_request</span><span class="params">(<span class="keyword">struct</span> request *req, <span class="type">void</span> *data)</span></span><br><span class="line">&#123;</span><br><span class="line">	dev_dbg_ratelimited(((<span class="keyword">struct</span> nvme_ctrl *) data)-&gt;device,</span><br><span class="line">				<span class="string">&quot;Cancelling I/O %d&quot;</span>, req-&gt;tag);</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* don&#x27;t abort one completed request */</span></span><br><span class="line">	<span class="keyword">if</span> (blk_mq_request_completed(req))</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">	nvme_req(req)-&gt;status = NVME_SC_HOST_ABORTED_CMD;</span><br><span class="line">	nvme_req(req)-&gt;flags |= NVME_REQ_CANCELLED;</span><br><span class="line">	blk_mq_complete_request(req);</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h1>
+<p>通过上述代码可以得知，命令的执行结果分为几种情况：<br />
+<strong>1）</strong> 如果命令被Host主动Cancle掉，那么返回-4，代表Interrupted system call。<br />
+<strong>2）</strong> 如果命令正常结束，那么返回Completion Entry中的status Filed，通常值应该大于0。<br />
+<strong>3）</strong> 遇到其它的内核错误，命令的返回值应该为负值。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NVMe/" rel="tag"># NVMe</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/06/15/%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E7%AE%80%E4%BB%8B-2017-06-15/" rel="prev" title="密码算法简介">
+                  <i class="fa fa-angle-left"></i> 密码算法简介
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/06/03/Linux%20PCIe%20Topology/" rel="next" title="PCIe 拓扑结构">
+                  PCIe 拓扑结构 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">zhu</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"next-comment-theta.vercel.app","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":[],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2023/04/04/NVMe%20%E5%91%BD%E4%BB%A4%E8%BF%94%E5%9B%9E%E5%80%BC%E5%92%8C%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%82%E6%95%B0%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+</body>
+</html>
